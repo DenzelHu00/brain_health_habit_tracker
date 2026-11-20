@@ -5,32 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Brain Health Habits</title>
 <meta name="description" content="A simple habit tracker for small daily habits that support brain health and memory.">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#131313" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" id="themeColor">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 256 256%22 fill=%22%23ad336a%22%3E%3Cpath d=%22M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   /* ---------- Tokens ----------
-     Colour: restrained. Pure white base, rose-tinted neutrals,
-     one rose primary for actions and done states, marigold only for streaks.
+     Colour: restrained. Pure white (or near-black) base, neutrals lightly tinted
+     toward the chosen color's hue, one primary for actions and done states,
+     marigold only for streaks. The head script sets data-theme (light/dark)
+     and data-accent (rose/sage/lake/plum) on <html> before first paint.
      Shape: 14px for rows and panels, 10px for tiles, inputs and day cells,
      full pill for buttons and badges, circles for check marks. */
   :root {
+    /* Color themes, light values (each passes WCAG AA with this page's neutrals) */
+    --rose-p: oklch(0.52 0.165 357); --rose-h: oklch(0.46 0.16 357);  --rose-s: oklch(0.955 0.025 357);
+    --sage-p: oklch(0.5 0.1 150);    --sage-h: oklch(0.44 0.095 150); --sage-s: oklch(0.955 0.03 150);
+    --lake-p: oklch(0.5 0.12 230);   --lake-h: oklch(0.44 0.115 230); --lake-s: oklch(0.955 0.025 230);
+    --plum-p: oklch(0.5 0.14 315);   --plum-h: oklch(0.44 0.135 315); --plum-s: oklch(0.955 0.025 315);
+
+    --hue: 357;
+    --primary: var(--rose-p);
+    --primary-hover: var(--rose-h);
+    --primary-soft: var(--rose-s);
+
     --bg: oklch(1 0 0);
-    --surface: oklch(0.972 0.007 355);
-    --surface-2: oklch(0.945 0.012 355);
-    --ink: oklch(0.25 0.02 355);
-    --muted: oklch(0.47 0.02 355);
-    --primary: oklch(0.52 0.165 357);
-    --primary-hover: oklch(0.46 0.16 357);
-    --primary-soft: oklch(0.955 0.025 357);
+    --surface: oklch(0.972 0.007 var(--hue));
+    --surface-2: oklch(0.945 0.012 var(--hue));
+    --ink: oklch(0.25 0.02 var(--hue));
+    --muted: oklch(0.47 0.02 var(--hue));
     --on-primary: oklch(1 0 0);
     --accent: oklch(0.83 0.13 78);
     --on-accent: oklch(0.25 0.04 60);
-    --border: oklch(0.91 0.008 355);
-    --border-strong: oklch(0.64 0.02 355);
+    --border: oklch(0.91 0.008 var(--hue));
+    --border-strong: oklch(0.64 0.02 var(--hue));
     --danger: oklch(0.47 0.16 30);
     --on-danger: oklch(1 0 0);
 
@@ -46,24 +55,27 @@
 
     color-scheme: light;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: oklch(0.17 0 0);
-      --surface: oklch(0.215 0.008 355);
-      --surface-2: oklch(0.26 0.012 355);
-      --ink: oklch(0.95 0.006 355);
-      --muted: oklch(0.76 0.015 355);
-      --primary: oklch(0.76 0.12 357);
-      --primary-hover: oklch(0.81 0.1 357);
-      --primary-soft: oklch(0.27 0.05 357);
-      --on-primary: oklch(0.2 0.03 357);
-      --border: oklch(0.3 0.008 355);
-      --border-strong: oklch(0.55 0.02 355);
-      --danger: oklch(0.75 0.13 30);
-      --on-danger: oklch(0.17 0 0);
-      color-scheme: dark;
-    }
+  :root[data-theme="dark"] {
+    --rose-p: oklch(0.76 0.12 357); --rose-h: oklch(0.81 0.1 357);   --rose-s: oklch(0.27 0.05 357);
+    --sage-p: oklch(0.78 0.1 150);  --sage-h: oklch(0.83 0.085 150); --sage-s: oklch(0.27 0.04 150);
+    --lake-p: oklch(0.78 0.1 230);  --lake-h: oklch(0.83 0.085 230); --lake-s: oklch(0.27 0.045 230);
+    --plum-p: oklch(0.77 0.11 315); --plum-h: oklch(0.82 0.09 315);  --plum-s: oklch(0.27 0.05 315);
+
+    --bg: oklch(0.17 0 0);
+    --surface: oklch(0.215 0.008 var(--hue));
+    --surface-2: oklch(0.26 0.012 var(--hue));
+    --ink: oklch(0.95 0.006 var(--hue));
+    --muted: oklch(0.76 0.015 var(--hue));
+    --on-primary: oklch(0.2 0.03 var(--hue));
+    --border: oklch(0.3 0.008 var(--hue));
+    --border-strong: oklch(0.55 0.02 var(--hue));
+    --danger: oklch(0.75 0.13 30);
+    --on-danger: oklch(0.17 0 0);
+    color-scheme: dark;
   }
+  :root[data-accent="sage"] { --hue: 150; --primary: var(--sage-p); --primary-hover: var(--sage-h); --primary-soft: var(--sage-s); }
+  :root[data-accent="lake"] { --hue: 230; --primary: var(--lake-p); --primary-hover: var(--lake-h); --primary-soft: var(--lake-s); }
+  :root[data-accent="plum"] { --hue: 315; --primary: var(--plum-p); --primary-hover: var(--plum-h); --primary-soft: var(--plum-s); }
 
   /* ---------- Base ---------- */
   *, *::before, *::after { box-sizing: border-box; }
@@ -100,7 +112,63 @@
     background: var(--primary-soft); color: var(--primary);
   }
   .logo svg { width: 24px; height: 24px; }
-  .brand { font-weight: 700; font-size: 0.944rem; letter-spacing: 0.005em; }
+  .brand { flex: 1; min-width: 0; font-weight: 700; font-size: 0.944rem; letter-spacing: 0.005em; }
+  .icon-btn {
+    min-width: 44px; min-height: 44px; padding: 0 12px; flex: none;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border: 2px solid transparent; border-radius: var(--r-pill);
+    background: transparent; color: var(--ink); font-weight: 700; cursor: pointer;
+    transition: background-color .18s var(--ease-out), border-color .18s var(--ease-out);
+  }
+  .icon-btn:hover { background: var(--surface); }
+  .icon-btn[aria-expanded="true"] { background: var(--primary-soft); border-color: var(--primary); }
+  .icon-btn svg { width: 24px; height: 24px; transition: transform .35s var(--ease-expo); }
+  .icon-btn[aria-expanded="true"] svg { transform: rotate(60deg); }
+  .icon-btn-label { display: none; }
+  @media (min-width: 480px) { .icon-btn-label { display: inline; } }
+
+  /* ---------- Settings ---------- */
+  .settings {
+    margin: -8px 0 28px; padding: 20px;
+    border: 2px solid var(--border); border-radius: var(--r-lg);
+    display: grid; gap: 22px;
+  }
+  @media (min-width: 480px) { .settings { padding: 24px; } }
+  @media (min-width: 960px) { .settings { max-width: 560px; margin-left: auto; } }
+  .settings h2 { font-size: 1.2rem; font-weight: 700; }
+  .settings h2:focus { outline: none; }
+  .opt-group { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .opt-group legend { padding: 0; margin-bottom: 10px; font-weight: 700; }
+  .seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .swatches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  @media (min-width: 480px) { .swatches { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .opt { display: block; cursor: pointer; }
+  .opt-card {
+    height: 100%; border: 2px solid var(--border); border-radius: var(--r-md);
+    font-weight: 700; font-size: 0.889rem;
+    transition: background-color .18s var(--ease-out), border-color .18s var(--ease-out);
+  }
+  .seg .opt-card {
+    min-height: 76px; padding: 10px 6px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  }
+  .seg .opt-card svg { width: 24px; height: 24px; }
+  .swatches .opt-card { min-height: 56px; padding: 8px 12px; display: flex; align-items: center; gap: 10px; }
+  .opt:hover .opt-card { background: var(--surface); }
+  .opt input:checked + .opt-card { background: var(--primary-soft); border-color: var(--primary); }
+  .opt input:focus-visible + .opt-card { outline: 3px solid var(--primary); outline-offset: 3px; }
+  .sw {
+    width: 28px; height: 28px; border-radius: 50%; flex: none;
+    background: var(--c); color: var(--on-primary);
+    display: grid; place-items: center;
+  }
+  .sw svg { width: 16px; height: 16px; opacity: 0; transform: scale(0.5); transition: opacity .15s var(--ease-out), transform .3s var(--ease-expo); }
+  .opt input:checked + .opt-card .sw svg { opacity: 1; transform: scale(1); }
+  .settings-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .settings-foot .hint { margin: 0; }
+
+  /* Theme switch crossfade (skipped by script when reduced motion is on). */
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; animation-timing-function: var(--ease-out); }
 
   .notice {
     background: var(--surface); border-radius: var(--r-md);
@@ -361,13 +429,51 @@
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
+<script>
+  // Apply the saved appearance and color before the first paint, so there is no flash.
+  (function () {
+    var p = {};
+    try { p = JSON.parse(window.localStorage.getItem('brainHealthHabits.prefs')) || {}; } catch (e) { p = {}; }
+    var mode = (p.mode === 'light' || p.mode === 'dark') ? p.mode : 'system';
+    var dark = mode === 'dark' || (mode === 'system' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var root = document.documentElement;
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    root.setAttribute('data-accent', /^(rose|sage|lake|plum)$/.test(p.accent) ? p.accent : 'rose');
+  })();
+</script>
 </head>
 <body>
 <div class="app">
   <header class="masthead">
     <span class="logo" aria-hidden="true"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z"/></svg></span>
     <span class="brand">Brain Health Habits</span>
+    <button type="button" class="icon-btn" id="settingsToggle" aria-expanded="false" aria-controls="settings" aria-label="Settings" title="Settings"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z"/></svg><span class="icon-btn-label" aria-hidden="true">Settings</span></button>
   </header>
+
+  <section class="settings" id="settings" hidden aria-labelledby="settingsTitle">
+    <h2 id="settingsTitle" tabindex="-1">Settings</h2>
+    <fieldset class="opt-group">
+      <legend>Appearance</legend>
+      <div class="seg">
+        <label class="opt"><input class="visually-hidden" type="radio" name="mode" value="system"><span class="opt-card"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,16.37a86.4,86.4,0,0,1,16,3V212.67a86.4,86.4,0,0,1-16,3Zm32,9.26a87.81,87.81,0,0,1,16,10.54V195.83a87.81,87.81,0,0,1-16,10.54ZM40,128a88.11,88.11,0,0,1,80-87.63V215.63A88.11,88.11,0,0,1,40,128Zm160,50.54V77.46a87.82,87.82,0,0,1,0,101.08Z"/></svg>Match my device</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="mode" value="light"><span class="opt-card"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></svg>Light</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="mode" value="dark"><span class="opt-card"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/></svg>Dark</span></label>
+      </div>
+    </fieldset>
+    <fieldset class="opt-group">
+      <legend>Color</legend>
+      <div class="swatches">
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="rose"><span class="opt-card"><span class="sw" style="--c: var(--rose-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Rose</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="sage"><span class="opt-card"><span class="sw" style="--c: var(--sage-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Sage</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="lake"><span class="opt-card"><span class="sw" style="--c: var(--lake-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Lake</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="plum"><span class="opt-card"><span class="sw" style="--c: var(--plum-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Plum</span></label>
+      </div>
+    </fieldset>
+    <div class="settings-foot">
+      <p class="hint">Saved on this device.</p>
+      <button type="button" class="btn btn-secondary btn-small" id="settingsDone">Done</button>
+    </div>
+  </section>
 
   <div class="notice" id="storageNotice" role="status" hidden>
     Your browser is not saving data right now (this can happen in private browsing). The tracker still works, but your progress will reset when you close this page.
@@ -989,6 +1095,71 @@
     toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3000);
   }
 
+  /* ---------- Appearance + color settings ---------- */
+  var PREFS_KEY = 'brainHealthHabits.prefs';
+  var MODES = ['system', 'light', 'dark'];
+  var ACCENTS = ['rose', 'sage', 'lake', 'plum'];
+  var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+  function loadPrefs() {
+    var p = {};
+    try { p = JSON.parse(window.localStorage.getItem(PREFS_KEY)) || {}; } catch (e) { p = {}; }
+    return {
+      mode: MODES.indexOf(p.mode) !== -1 ? p.mode : 'system',
+      accent: ACCENTS.indexOf(p.accent) !== -1 ? p.accent : 'rose'
+    };
+  }
+  function savePrefs() {
+    if (!storageOK) return;
+    try { window.localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) { /* keep working without saving */ }
+  }
+  var prefs = loadPrefs();
+
+  function applyTheme() {
+    var dark = prefs.mode === 'dark' || (prefs.mode === 'system' && !!darkQuery && darkQuery.matches);
+    var root = document.documentElement;
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    root.setAttribute('data-accent', prefs.accent);
+    $('themeColor').setAttribute('content', dark ? '#131313' : '#ffffff');
+  }
+
+  function setPref(key, value) {
+    if (prefs[key] === value) return;
+    prefs[key] = value;
+    savePrefs();
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (document.startViewTransition && !reduce) document.startViewTransition(applyTheme);
+    else applyTheme();
+  }
+
+  function syncSettingsUI() {
+    Array.prototype.forEach.call($('settings').querySelectorAll('input[type="radio"]'), function (i) {
+      i.checked = prefs[i.name] === i.value;
+    });
+  }
+
+  function setSettings(open) {
+    $('settings').hidden = !open;
+    $('settingsToggle').setAttribute('aria-expanded', String(open));
+    if (open) { syncSettingsUI(); $('settingsTitle').focus(); }
+    else $('settingsToggle').focus();
+  }
+
+  $('settingsToggle').addEventListener('click', function () { setSettings($('settings').hidden); });
+  $('settingsDone').addEventListener('click', function () { setSettings(false); });
+  $('settings').addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.name === 'mode' || t.name === 'accent') setPref(t.name, t.value);
+  });
+  $('settings').addEventListener('keydown', function (e) { if (e.key === 'Escape') setSettings(false); });
+
+  if (darkQuery) {
+    var onSystemChange = function () { if (prefs.mode === 'system') applyTheme(); };
+    if (darkQuery.addEventListener) darkQuery.addEventListener('change', onSystemChange);
+    else if (darkQuery.addListener) darkQuery.addListener(onSystemChange);
+  }
+  applyTheme();
+
   /* ---------- Keep "today" fresh ---------- */
   var lastDay = dkey(today());
   function checkDay() {
@@ -1002,6 +1173,7 @@
   // Stay in sync if the tracker is open in two tabs.
   window.addEventListener('storage', function (e) {
     if (e.key === STORE_KEY || e.key === null) { state = loadState(); render(); }
+    if (e.key === PREFS_KEY || e.key === null) { prefs = loadPrefs(); applyTheme(); syncSettingsUI(); }
   });
 
   render();
