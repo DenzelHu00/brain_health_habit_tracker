@@ -20,6 +20,7 @@ Your data is saved only in your own browser (localStorage). Nothing is sent anyw
 - **Why this helps:** a short, plain-language explanation for each habit.
 - **Reset:** clear all data, with a confirmation step first.
 - **Themes:** a settings panel for light, dark, or device appearance and four color options.
+- **Risk Factors:** a page showing the 14 modifiable dementia risk factors from the 2024 Lancet Commission, the share of cases linked to each, and the tracker habit that supports it.
 - **About This Project:** a second page with the project write-up (course concepts, research evidence, significance, impact) and APA references.
 - **Accessible:** 18px base text, WCAG AA contrast, 44px+ tap targets, keyboard and screen reader support, dark mode, and reduced-motion support.
 
@@ -39,6 +40,7 @@ The habits are inspired by research on brain health, including the 2024 Lancet C
 ## Files
 
 - `index.html`: the habit tracker (HTML, CSS, and JavaScript in one file).
+- `risk-factors.html`: the Dementia Risk Factors page.
 - `about.html`: the About This Project page with the NSCI 140 Group 31 write-up. Unfinished sections show as marked placeholders.
 - `PRODUCT.md`: the design brief (users, purpose, personality, accessibility goals).
 
