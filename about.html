@@ -9,7 +9,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 256 256%22 fill=%22%23ad336a%22%3E%3Cpath d=%22M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&display=swap" rel="stylesheet">
 <style>
   /* ---------- Tokens ----------
      Colour: restrained. Pure white (or near-black) base, neutrals lightly tinted
@@ -53,6 +54,10 @@
     --z-sticky: 10;
     --z-toast: 20;
 
+    /* Type: Fraunces for titles and subtitles, Alpino for everything else. */
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body: 'Alpino', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
     color-scheme: light;
   }
   :root[data-theme="dark"] {
@@ -78,18 +83,28 @@
   :root[data-accent="plum"] { --hue: 315; --primary: var(--plum-p); --primary-hover: var(--plum-h); --primary-soft: var(--plum-s); }
 
   /* ---------- Base ---------- */
+  /* Alpino (Indian Type Foundry, via Fontshare). Full https URLs so the font
+     also loads when the file is opened directly from disk. */
+  @font-face { font-family: 'Alpino'; font-style: normal; font-weight: 400; font-display: swap;
+    src: url('https://cdn.fontshare.com/wf/6YJSBFS7OUREUTICF3QVAEJJWILWSWE3/MJ6NZV3TIYVSHNYDZ3QUVVCZTVKZAXON/Z4Q4AHQTIFKTR36JAH4YU4DHHZTJRJMK.woff2') format('woff2'), url('https://cdn.fontshare.com/wf/6YJSBFS7OUREUTICF3QVAEJJWILWSWE3/MJ6NZV3TIYVSHNYDZ3QUVVCZTVKZAXON/Z4Q4AHQTIFKTR36JAH4YU4DHHZTJRJMK.woff') format('woff'); }
+  @font-face { font-family: 'Alpino'; font-style: normal; font-weight: 500; font-display: swap;
+    src: url('https://cdn.fontshare.com/wf/VWLAH6SDBL46SHHO2PS7WIRRCSRUNLGL/KIW45C7W7F65MB47Z6ZGVEI3LJ5LRUEK/5H7H3NLI264G2V2IR4SWUJYYY3ELL2HP.woff2') format('woff2'), url('https://cdn.fontshare.com/wf/VWLAH6SDBL46SHHO2PS7WIRRCSRUNLGL/KIW45C7W7F65MB47Z6ZGVEI3LJ5LRUEK/5H7H3NLI264G2V2IR4SWUJYYY3ELL2HP.woff') format('woff'); }
+  @font-face { font-family: 'Alpino'; font-style: normal; font-weight: 700; font-display: swap;
+    src: url('https://cdn.fontshare.com/wf/ZWZDGYLYZABMUG7MVKQ73OTMQ3O7KJBS/3POZOHUJ6MLWJL4OB5YQBFATRGS5O65N/JA5K34CNW5SGRK6O7S72AYZZYXSOTCJX.woff2') format('woff2'), url('https://cdn.fontshare.com/wf/ZWZDGYLYZABMUG7MVKQ73OTMQ3O7KJBS/3POZOHUJ6MLWJL4OB5YQBFATRGS5O65N/JA5K34CNW5SGRK6O7S72AYZZYXSOTCJX.woff') format('woff'); }
   *, *::before, *::after { box-sizing: border-box; }
   html { font-size: 112.5%; -webkit-text-size-adjust: 100%; } /* 1rem = 18px */
   body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, p { margin: 0; }
+  h1, h2, h3, h4, .brand { font-family: var(--font-display); font-optical-sizing: auto; }
+  .wk-title h3 { font-family: var(--font-body); } /* habit names are labels, matching the Today list */
   h1, h2, h3 { line-height: 1.2; text-wrap: balance; }
   p { text-wrap: pretty; }
   button, input { font: inherit; color: inherit; }
@@ -223,7 +238,7 @@
   html { scroll-padding-top: 16px; }
   @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
   .article { max-width: 720px; margin: 0 auto; }
-  .page-head h1 { font-size: 1.728rem; font-weight: 800; letter-spacing: -0.01em; }
+  .page-head h1 { font-size: 1.728rem; font-weight: 700; letter-spacing: -0.005em; }
   .credit { margin-top: 6px; color: var(--muted); font-weight: 700; }
   .nowrap { white-space: nowrap; }
   .article a { color: var(--primary); text-underline-offset: 3px; }
@@ -234,7 +249,7 @@
   @media (min-width: 560px) { .toc ol { grid-template-columns: 1fr 1fr; column-gap: 20px; } }
   .toc a { display: flex; align-items: center; min-height: 44px; font-weight: 700; }
   .group { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); }
-  .group > h2 { font-size: 1.44rem; font-weight: 800; letter-spacing: -0.005em; }
+  .group > h2 { font-size: 1.44rem; font-weight: 700; }
   .group section { margin-top: 28px; }
   .group h3 { font-size: 1.2rem; font-weight: 700; }
   .group h4 { font-size: 1rem; font-weight: 700; margin-top: 22px; }
@@ -247,7 +262,7 @@
     background: color-mix(in oklab, var(--accent) 22%, var(--bg));
     border: 2px dashed color-mix(in oklab, var(--accent) 55%, var(--ink));
   }
-  .placeholder strong, .tag { font-weight: 800; }
+  .placeholder strong, .tag { font-weight: 700; }
   .tag {
     display: inline-block; text-indent: 0; padding: 0 8px; margin-right: 4px; border-radius: var(--r-pill);
     background: var(--accent); color: var(--on-accent); font-size: 0.833rem;

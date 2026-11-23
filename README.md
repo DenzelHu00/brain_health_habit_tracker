@@ -45,7 +45,7 @@ The habits are inspired by research on brain health, including the 2024 Lancet C
 ## Credits
 
 - Icons: [Phosphor Icons](https://phosphoricons.com) (MIT License), embedded in the page.
-- Font: [Atkinson Hyperlegible Next](https://fonts.google.com/specimen/Atkinson+Hyperlegible+Next) by the Braille Institute, loaded from Google Fonts.
+- Fonts: [Fraunces](https://fonts.google.com/specimen/Fraunces) by Undercase Type (SIL Open Font License) for titles, loaded from Google Fonts, and [Alpino](https://www.fontshare.com/fonts/alpino) by Indian Type Foundry (ITF Free Font License) for text, loaded from Fontshare.
 
 ## Disclaimer
 
