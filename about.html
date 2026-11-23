@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About This Project · Brain Health Habits</title>
+<meta name="description" content="The neuroscience behind the Brain Health Habits tracker: course concepts, research evidence, and our project write-up (NSCI 140 Group 31).">
+<meta name="theme-color" content="#ffffff" id="themeColor">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 256 256%22 fill=%22%23ad336a%22%3E%3Cpath d=%22M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tokens ----------
+     Colour: restrained. Pure white (or near-black) base, neutrals lightly tinted
+     toward the chosen color's hue, one primary for actions and done states,
+     marigold only for streaks. The head script sets data-theme (light/dark)
+     and data-accent (rose/sage/lake/plum) on <html> before first paint.
+     Shape: 14px for rows and panels, 10px for tiles, inputs and day cells,
+     full pill for buttons and badges, circles for check marks. */
+  :root {
+    /* Color themes, light values (each passes WCAG AA with this page's neutrals) */
+    --rose-p: oklch(0.52 0.165 357); --rose-h: oklch(0.46 0.16 357);  --rose-s: oklch(0.955 0.025 357);
+    --sage-p: oklch(0.5 0.1 150);    --sage-h: oklch(0.44 0.095 150); --sage-s: oklch(0.955 0.03 150);
+    --lake-p: oklch(0.5 0.12 230);   --lake-h: oklch(0.44 0.115 230); --lake-s: oklch(0.955 0.025 230);
+    --plum-p: oklch(0.5 0.14 315);   --plum-h: oklch(0.44 0.135 315); --plum-s: oklch(0.955 0.025 315);
+
+    --hue: 357;
+    --primary: var(--rose-p);
+    --primary-hover: var(--rose-h);
+    --primary-soft: var(--rose-s);
+
+    --bg: oklch(1 0 0);
+    --surface: oklch(0.972 0.007 var(--hue));
+    --surface-2: oklch(0.945 0.012 var(--hue));
+    --ink: oklch(0.25 0.02 var(--hue));
+    --muted: oklch(0.47 0.02 var(--hue));
+    --on-primary: oklch(1 0 0);
+    --accent: oklch(0.83 0.13 78);
+    --on-accent: oklch(0.25 0.04 60);
+    --border: oklch(0.91 0.008 var(--hue));
+    --border-strong: oklch(0.64 0.02 var(--hue));
+    --danger: oklch(0.47 0.16 30);
+    --on-danger: oklch(1 0 0);
+
+    --r-lg: 14px;
+    --r-md: 10px;
+    --r-pill: 999px;
+
+    --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --z-sticky: 10;
+    --z-toast: 20;
+
+    /* Type: Fraunces for titles and subtitles, Alpino for everything else. */
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body: 'Alpino', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --rose-p: oklch(0.76 0.12 357); --rose-h: oklch(0.81 0.1 357);   --rose-s: oklch(0.27 0.05 357);
+    --sage-p: oklch(0.78 0.1 150);  --sage-h: oklch(0.83 0.085 150); --sage-s: oklch(0.27 0.04 150);
+    --lake-p: oklch(0.78 0.1 230);  --lake-h: oklch(0.83 0.085 230); --lake-s: oklch(0.27 0.045 230);
+    --plum-p: oklch(0.77 0.11 315); --plum-h: oklch(0.82 0.09 315);  --plum-s: oklch(0.27 0.05 315);
+
+    --bg: oklch(0.17 0 0);
+    --surface: oklch(0.215 0.008 var(--hue));
+    --surface-2: oklch(0.26 0.012 var(--hue));
+    --ink: oklch(0.95 0.006 var(--hue));
+    --muted: oklch(0.76 0.015 var(--hue));
+    --on-primary: oklch(0.2 0.03 var(--hue));
+    --border: oklch(0.3 0.008 var(--hue));
+    --border-strong: oklch(0.55 0.02 var(--hue));
+    --danger: oklch(0.75 0.13 30);
+    --on-danger: oklch(0.17 0 0);
+    color-scheme: dark;
+  }
+  :root[data-accent="sage"] { --hue: 150; --primary: var(--sage-p); --primary-hover: var(--sage-h); --primary-soft: var(--sage-s); }
+  :root[data-accent="lake"] { --hue: 230; --primary: var(--lake-p); --primary-hover: var(--lake-h); --primary-soft: var(--lake-s); }
+  :root[data-accent="plum"] { --hue: 315; --primary: var(--plum-p); --primary-hover: var(--plum-h); --primary-soft: var(--plum-s); }
+
+  /* ---------- Base ---------- */
+  /* Alpino (Indian Type Foundry, via Fontshare). Full https URLs so the font
+     also loads when the file is opened directly from disk. */
+  @font-face { font-family: 'Alpino'; font-style: normal; font-weight: 400; font-display: swap;
+    src: url('https://cdn.fontshare.com/wf/6YJSBFS7OUREUTICF3QVAEJJWILWSWE3/MJ6NZV3TIYVSHNYDZ3QUVVCZTVKZAXON/Z4Q4AHQTIFKTR36JAH4YU4DHHZTJRJMK.woff2') format('woff2'), url('https://cdn.fontshare.com/wf/6YJSBFS7OUREUTICF3QVAEJJWILWSWE3/MJ6NZV3TIYVSHNYDZ3QUVVCZTVKZAXON/Z4Q4AHQTIFKTR36JAH4YU4DHHZTJRJMK.woff') format('woff'); }
+  @font-face { font-family: 'Alpino'; font-style: normal; font-weight: 500; font-display: swap;
+    src: url('https://cdn.fontshare.com/wf/VWLAH6SDBL46SHHO2PS7WIRRCSRUNLGL/KIW45C7W7F65MB47Z6ZGVEI3LJ5LRUEK/5H7H3NLI264G2V2IR4SWUJYYY3ELL2HP.woff2') format('woff2'), url('https://cdn.fontshare.com/wf/VWLAH6SDBL46SHHO2PS7WIRRCSRUNLGL/KIW45C7W7F65MB47Z6ZGVEI3LJ5LRUEK/5H7H3NLI264G2V2IR4SWUJYYY3ELL2HP.woff') format('woff'); }
+  @font-face { font-family: 'Alpino'; font-style: normal; font-weight: 700; font-display: swap;
+    src: url('https://cdn.fontshare.com/wf/ZWZDGYLYZABMUG7MVKQ73OTMQ3O7KJBS/3POZOHUJ6MLWJL4OB5YQBFATRGS5O65N/JA5K34CNW5SGRK6O7S72AYZZYXSOTCJX.woff2') format('woff2'), url('https://cdn.fontshare.com/wf/ZWZDGYLYZABMUG7MVKQ73OTMQ3O7KJBS/3POZOHUJ6MLWJL4OB5YQBFATRGS5O65N/JA5K34CNW5SGRK6O7S72AYZZYXSOTCJX.woff') format('woff'); }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { font-size: 112.5%; -webkit-text-size-adjust: 100%; } /* 1rem = 18px */
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, p { margin: 0; }
+  h1, h2, h3, h4, .brand { font-family: var(--font-display); font-optical-sizing: auto; }
+  .wk-title h3 { font-family: var(--font-body); } /* habit names are labels, matching the Today list */
+  h1, h2, h3 { line-height: 1.2; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  button, input { font: inherit; color: inherit; }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+  svg { display: block; }
+  .visually-hidden {
+    position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  .app { max-width: 1080px; margin: 0 auto; padding: 16px 16px 32px; }
+  @media (min-width: 960px) { .app { padding: 24px 40px 48px; } }
+
+  /* ---------- Masthead ---------- */
+  .masthead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-height: 56px; margin-bottom: 24px; }
+  .logo {
+    width: 40px; height: 40px; border-radius: var(--r-md); flex: none;
+    display: grid; place-items: center;
+    background: var(--primary-soft); color: var(--primary);
+  }
+  .logo svg { width: 24px; height: 24px; }
+  .brand-link {
+    flex: 1; min-width: 0; min-height: 44px; display: flex; align-items: center; gap: 12px;
+    color: inherit; text-decoration: none; border-radius: var(--r-md);
+  }
+  .brand { min-width: 0; font-weight: 700; font-size: 0.944rem; letter-spacing: 0.005em; }
+  .site-nav { order: 3; flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 6px; }
+  .site-nav a {
+    min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center;
+    border-radius: var(--r-pill); font-weight: 700; font-size: 0.944rem;
+    color: var(--muted); text-decoration: none;
+    transition: background-color .18s var(--ease-out), color .18s var(--ease-out);
+  }
+  .site-nav a:hover { background: var(--surface); color: var(--ink); }
+  .site-nav a[aria-current="page"] { background: var(--primary-soft); color: var(--primary); }
+  @media (min-width: 720px) {
+    .brand-link { flex: 0 1 auto; }
+    .site-nav { order: 0; flex-basis: auto; margin-left: auto; }
+  }
+  .icon-btn {
+    min-width: 44px; min-height: 44px; padding: 0 12px; flex: none;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border: 2px solid transparent; border-radius: var(--r-pill);
+    background: transparent; color: var(--ink); font-weight: 700; cursor: pointer;
+    transition: background-color .18s var(--ease-out), border-color .18s var(--ease-out);
+  }
+  .icon-btn:hover { background: var(--surface); }
+  .icon-btn[aria-expanded="true"] { background: var(--primary-soft); border-color: var(--primary); }
+  .icon-btn svg { width: 24px; height: 24px; transition: transform .35s var(--ease-expo); }
+  .icon-btn[aria-expanded="true"] svg { transform: rotate(60deg); }
+  .icon-btn-label { display: none; }
+  @media (min-width: 480px) { .icon-btn-label { display: inline; } }
+
+  /* ---------- Settings ---------- */
+  .settings {
+    margin: -8px 0 28px; padding: 20px;
+    border: 2px solid var(--border); border-radius: var(--r-lg);
+    display: grid; gap: 22px;
+  }
+  @media (min-width: 480px) { .settings { padding: 24px; } }
+  @media (min-width: 960px) { .settings { max-width: 560px; margin-left: auto; } }
+  .settings h2 { font-size: 1.2rem; font-weight: 700; }
+  .settings h2:focus { outline: none; }
+  .opt-group { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .opt-group legend { padding: 0; margin-bottom: 10px; font-weight: 700; }
+  .seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .swatches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  @media (min-width: 480px) { .swatches { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .opt { display: block; cursor: pointer; }
+  .opt-card {
+    height: 100%; border: 2px solid var(--border); border-radius: var(--r-md);
+    font-weight: 700; font-size: 0.889rem;
+    transition: background-color .18s var(--ease-out), border-color .18s var(--ease-out);
+  }
+  .seg .opt-card {
+    min-height: 76px; padding: 10px 6px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  }
+  .seg .opt-card svg { width: 24px; height: 24px; }
+  .swatches .opt-card { min-height: 56px; padding: 8px 12px; display: flex; align-items: center; gap: 10px; }
+  .opt:hover .opt-card { background: var(--surface); }
+  .opt input:checked + .opt-card { background: var(--primary-soft); border-color: var(--primary); }
+  .opt input:focus-visible + .opt-card { outline: 3px solid var(--primary); outline-offset: 3px; }
+  .sw {
+    width: 28px; height: 28px; border-radius: 50%; flex: none;
+    background: var(--c); color: var(--on-primary);
+    display: grid; place-items: center;
+  }
+  .sw svg { width: 16px; height: 16px; opacity: 0; transform: scale(0.5); transition: opacity .15s var(--ease-out), transform .3s var(--ease-expo); }
+  .opt input:checked + .opt-card .sw svg { opacity: 1; transform: scale(1); }
+  .settings-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .settings-foot .hint { margin: 0; }
+
+  /* Theme switch crossfade (skipped by script when reduced motion is on). */
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; animation-timing-function: var(--ease-out); }
+
+  .notice {
+    background: var(--surface); border-radius: var(--r-md);
+    padding: 14px 18px; margin-bottom: 24px; font-size: 0.889rem;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    min-height: 48px; padding: 0 24px; border-radius: var(--r-pill);
+    border: 2px solid transparent; font-weight: 700; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    white-space: nowrap;
+    transition: background-color .18s var(--ease-out), border-color .18s var(--ease-out), color .18s var(--ease-out), transform .12s var(--ease-out);
+  }
+  .btn:active:not(:disabled) { transform: scale(0.98); }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn-primary { background: var(--primary); color: var(--on-primary); }
+  .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
+  .btn-primary:disabled { background: var(--surface-2); color: var(--muted); cursor: not-allowed; }
+  .btn-secondary { background: transparent; border-color: var(--border-strong); color: var(--ink); }
+  .btn-secondary:hover { background: var(--surface); }
+  .btn-quiet { background: transparent; color: var(--muted); min-height: 44px; padding: 0 16px; }
+  .btn-quiet:hover { background: var(--surface); color: var(--ink); }
+  .btn-danger { background: var(--danger); color: var(--on-danger); }
+  .btn-danger:hover { background: color-mix(in oklch, var(--danger) 88%, var(--ink)); }
+  .btn-small { min-height: 44px; padding: 0 18px; font-size: 0.889rem; }
+
+  /* ---------- Footer ---------- */
+  .footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; }
+  .disclaimer { color: var(--muted); font-size: 0.889rem; max-width: 36em; margin: 18px auto 0; }
+  .source { color: var(--muted); font-size: 0.778rem; max-width: 44em; margin: 10px auto 0; }
+  .credit-line { font-weight: 700; font-size: 0.889rem; max-width: 36em; margin: 10px auto 0; }
+
+  /* ---------- About page ---------- */
+  html { scroll-padding-top: 16px; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  .article { max-width: 720px; margin: 0 auto; }
+  .page-head h1 { font-size: 1.728rem; font-weight: 700; letter-spacing: -0.005em; }
+  .credit { margin-top: 6px; color: var(--muted); font-weight: 700; }
+  .nowrap { white-space: nowrap; }
+  .article a { color: var(--primary); text-underline-offset: 3px; }
+  .article a:hover { text-decoration-thickness: 2px; }
+  .toc { margin-top: 24px; padding: 16px 20px; background: var(--surface); border-radius: var(--r-lg); }
+  .toc h2 { font-size: 0.944rem; font-weight: 700; }
+  .toc ol { margin: 6px 0 0; padding: 0; list-style: none; display: grid; }
+  @media (min-width: 560px) { .toc ol { grid-template-columns: 1fr 1fr; column-gap: 20px; } }
+  .toc a { display: flex; align-items: center; min-height: 44px; font-weight: 700; }
+  .group { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .group > h2 { font-size: 1.44rem; font-weight: 700; }
+  .group section { margin-top: 28px; }
+  .group h3 { font-size: 1.2rem; font-weight: 700; }
+  .group h4 { font-size: 1rem; font-weight: 700; margin-top: 22px; }
+  .article p { max-width: 68ch; line-height: 1.65; }
+  .article h3 + p, .article h4 + p { margin-top: 8px; }
+  .article p + p { margin-top: 14px; }
+  /* Placeholder: unfinished write-up sections, easy to spot and replace. */
+  .placeholder {
+    margin-top: 10px; padding: 14px 16px; border-radius: var(--r-md);
+    background: color-mix(in oklab, var(--accent) 22%, var(--bg));
+    border: 2px dashed color-mix(in oklab, var(--accent) 55%, var(--ink));
+  }
+  .placeholder strong, .tag { font-weight: 700; }
+  .tag {
+    display: inline-block; text-indent: 0; padding: 0 8px; margin-right: 4px; border-radius: var(--r-pill);
+    background: var(--accent); color: var(--on-accent); font-size: 0.833rem;
+  }
+  .refs { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 14px; }
+  .refs li { padding-left: 2em; text-indent: -2em; line-height: 1.6; max-width: 68ch; overflow-wrap: anywhere; }
+  .back-top { margin-top: 36px; }
+  .back-top a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+<script>
+  // Apply the saved appearance and color before the first paint, so there is no flash.
+  (function () {
+    var p = {};
+    try { p = JSON.parse(window.localStorage.getItem('brainHealthHabits.prefs')) || {}; } catch (e) { p = {}; }
+    var mode = (p.mode === 'light' || p.mode === 'dark') ? p.mode : 'system';
+    var dark = mode === 'dark' || (mode === 'system' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var root = document.documentElement;
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    root.setAttribute('data-accent', /^(rose|sage|lake|plum)$/.test(p.accent) ? p.accent : 'rose');
+  })();
+</script>
+</head>
+<body>
+<div class="app">
+  <header class="masthead">
+    <a class="brand-link" href="index.html"><span class="logo" aria-hidden="true"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z"/></svg></span><span class="brand">Brain Health Habits</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="index.html">Tracker</a>
+      <a href="about.html" aria-current="page">About This Project</a>
+    </nav>
+    <button type="button" class="icon-btn" id="settingsToggle" aria-expanded="false" aria-controls="settings" aria-label="Settings" title="Settings"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z"/></svg><span class="icon-btn-label" aria-hidden="true">Settings</span></button>
+  </header>
+
+
+  <section class="settings" id="settings" hidden aria-labelledby="settingsTitle">
+    <h2 id="settingsTitle" tabindex="-1">Settings</h2>
+    <fieldset class="opt-group">
+      <legend>Appearance</legend>
+      <div class="seg">
+        <label class="opt"><input class="visually-hidden" type="radio" name="mode" value="system"><span class="opt-card"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,16.37a86.4,86.4,0,0,1,16,3V212.67a86.4,86.4,0,0,1-16,3Zm32,9.26a87.81,87.81,0,0,1,16,10.54V195.83a87.81,87.81,0,0,1-16,10.54ZM40,128a88.11,88.11,0,0,1,80-87.63V215.63A88.11,88.11,0,0,1,40,128Zm160,50.54V77.46a87.82,87.82,0,0,1,0,101.08Z"/></svg>Match my device</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="mode" value="light"><span class="opt-card"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></svg>Light</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="mode" value="dark"><span class="opt-card"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/></svg>Dark</span></label>
+      </div>
+    </fieldset>
+    <fieldset class="opt-group">
+      <legend>Color</legend>
+      <div class="swatches">
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="rose"><span class="opt-card"><span class="sw" style="--c: var(--rose-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Rose</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="sage"><span class="opt-card"><span class="sw" style="--c: var(--sage-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Sage</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="lake"><span class="opt-card"><span class="sw" style="--c: var(--lake-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Lake</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="plum"><span class="opt-card"><span class="sw" style="--c: var(--plum-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Plum</span></label>
+      </div>
+    </fieldset>
+    <div class="settings-foot">
+      <p class="hint">Saved on this device.</p>
+      <button type="button" class="btn btn-secondary btn-small" id="settingsDone">Done</button>
+    </div>
+  </section>
+
+  <main class="article">
+    <header class="page-head" id="top">
+      <h1>About This Project</h1>
+      <p class="credit">About This Project &bull; <span class="nowrap">NSCI 140 &middot; Group 31</span></p>
+      <nav class="toc" aria-labelledby="tocTitle">
+        <h2 id="tocTitle">On this page</h2>
+        <ol>
+          <li><a href="#course-concepts">Course Concepts</a></li>
+          <li><a href="#resources">Additional Resources</a></li>
+          <li><a href="#solution">Building the Bridge</a></li>
+          <li><a href="#significance">Significance and Impact</a></li>
+          <li><a href="#measuring-impact">Evaluation</a></li>
+          <li><a href="#references">References</a></li>
+        </ol>
+      </nav>
+    </header>
+
+    <div class="group">
+      <h2>Research Foundation and Supporting Evidence</h2>
+
+      <section id="course-concepts" aria-labelledby="h-course-concepts">
+        <h3 id="h-course-concepts">Course Concepts</h3>
+        <p>For our project, we drew on several course modules: memory and learning, neuroplasticity, nature vs. nurture, executive functions, and the social brain. The memory and learning module, along with the <i>Memory Hackers</i> documentary, introduced the different types of memory and the brain regions responsible for forming, storing, and retrieving them. For example, the case of patient H.M. showed that damage to the hippocampus can impair the ability to form new long-term memories while leaving other systems, such as working memory and procedural memory, largely intact. This suggests that memory is not a single construct but a set of separate systems, which aging may affect in different ways. The neuroplasticity and nature vs. nurture modules showed that the brain keeps changing throughout life and that both genetic and environmental factors shape how it develops and functions. We also learned that exercise and sleep can support neuroplasticity, while chronic stress can impair it. Together, these modules suggest that although some memory decline is a normal part of aging, lifestyle choices can play an important role in maintaining brain health and memory over time.</p>
+        <p>The executive functions module is also relevant. It covered working memory and attention, and how sleep, stress, and physical health can affect them. The social brain module showed that social connection and interaction are essential for healthy brain function. This links directly to our project, since social isolation has been identified as a modifiable risk factor for dementia (Livingston et al., 2024). Overall, these course concepts give us a foundation for understanding how different brain regions support memory and how outside factors influence it. We can apply this knowledge in our project to help middle-aged adults build healthier habits early, with the goal of reducing cognitive decline as they age.</p>
+      </section>
+
+      <section id="resources" aria-labelledby="h-resources">
+        <h3 id="h-resources">Additional Resources</h3>
+        <h4>Exercise, BDNF, and Neuroplasticity in Older Adults</h4>
+        <p>Erickson et al. (2011) showed that lifestyle habits can physically change the aging brain. In a randomized controlled trial with 120 inactive adults aged 55 to 80, one year of moderate aerobic exercise (walking) increased the size of the hippocampus, a key memory region, by about 2%. That reversed roughly 1 to 2 years of age-related volume loss. The growth was linked to higher levels of BDNF, a protein that supports the growth of new neurons. The study's age range partly overlaps with our midlife audience, so it strengthens our proposal by showing that the brain stays plastic later in life. It gives a scientific basis for the exercise habit in our tracker.</p>
+        <h4>Dementia Risk Factors</h4>
+        <p>Livingston et al. (2024) reviewed evidence across the lifespan and identified 14 potentially modifiable risk factors for dementia, including hearing loss, hypertension, physical inactivity, depression, and social isolation. They estimated that about 45% of dementia cases could be prevented or delayed if all 14 factors were eliminated. This estimate assumes that the factors are causal and can be fully removed. Hearing loss and high LDL cholesterol, both midlife factors, had the largest impact of any single factor. These findings support our focus on midlife, when many of the most important risk factors appear. That makes it a key window for building habits that protect memory later in life.</p>
+        <h4>Normal vs. Abnormal Aging</h4>
+        <p>Nyberg et al. (2019) contrast normal memory aging with early Alzheimer's disease. Healthy older adults take longer to learn new information, but once it is well consolidated, they forget it no faster than younger adults. In contrast, patients with early Alzheimer's lost about 75% of newly learned material after just a 2-minute delay. Biologically, age-related tissue loss mainly affects white matter rather than grey matter. This means the connections between neurons slow down, rather than the neurons themselves being destroyed. Neuron loss in the hippocampus is also selective and spares its core processing regions. PET data suggest the hippocampus activates similarly in younger and older adults, while older adults show different frontal activation. This may reflect different retrieval strategies, such as more effortful searching or using both sides of the prefrontal cortex. Early Alzheimer's, by contrast, involves heavy neuron loss in the entorhinal cortex, the gateway that sends new information into the hippocampus. This distinction matters for our project: we can reassure users that slower learning is a normal part of aging, while explaining why rapid forgetting is a warning sign worth raising with a doctor.</p>
+      </section>
+    </div>
+
+    <div class="group">
+      <h2>Building the Bridge: Solution and Communication</h2>
+
+      <section id="solution" aria-labelledby="h-solution">
+        <h3 id="h-solution">Solution / Initiative</h3>
+        <p class="placeholder"><strong>[Placeholder]</strong> Our solution and how it connects neuroscience to everyday life will be added here.</p>
+      </section>
+
+      <section id="product" aria-labelledby="h-product">
+        <h3 id="h-product">Proposed Product</h3>
+        <p class="placeholder"><strong>[Placeholder]</strong> A short description of our product format will be added here.</p>
+      </section>
+
+      <section id="components" aria-labelledby="h-components">
+        <h3 id="h-components">Key Components</h3>
+        <p class="placeholder"><strong>[Placeholder]</strong> The main parts of our product will be listed here.</p>
+      </section>
+
+      <section id="example-activity" aria-labelledby="h-example-activity">
+        <h3 id="h-example-activity">Example Activity</h3>
+        <p class="placeholder"><strong>[Placeholder]</strong> A sample activity showing our approach in action will be added here.</p>
+      </section>
+    </div>
+
+    <div class="group">
+      <h2>Significance and Impact</h2>
+
+      <section id="significance" aria-labelledby="h-significance">
+        <h3 id="h-significance">Significance of the Project</h3>
+        <p>Our project is unique because it targets adults in midlife, before memory problems appear, rather than older adults or caregivers, who are the usual focus of dementia resources. It fills two key gaps. First, many people confuse normal age-related forgetfulness with dementia, which can cause unnecessary worry. By explaining that different memory systems age differently, we help our audience tell the difference. Second, people often know that exercise, sleep, and blood pressure matter for their general health, but not that these same factors shape their future brain health. Our website and habit tracker link each habit to the neuroscience behind it, such as neuroplasticity and exercise-driven hippocampal growth, turning research into simple daily actions. Together, these show that it is never too early, or too late, to protect your memory.</p>
+      </section>
+
+      <section id="impact" aria-labelledby="h-impact">
+        <h3 id="h-impact">Predicted Impact</h3>
+        <p>We predict that our project will clear up common misunderstandings and change how middle-aged adults understand and act on their cognitive health. For understanding, we expect our audience to better distinguish normal age-related changes, such as mild forgetfulness and working memory decline, from the signs of dementia. We also expect them to learn which habits can help lower dementia risk. Together, these should reduce unnecessary worry. For behaviour, we think that linking each habit to its neuroscience mechanism (for example, how an active lifestyle can increase the size of the hippocampus) will help our audience see the direct connection between daily choices and brain health. This should motivate them to adopt evidence-based habits that protect their memory as they age.</p>
+      </section>
+    </div>
+
+    <div class="group">
+      <h2>Evaluation and Impact Measurement</h2>
+
+      <section id="measuring-impact" aria-labelledby="h-measuring-impact">
+        <h3 id="h-measuring-impact">Measuring Impact</h3>
+        <p class="placeholder"><strong>[Placeholder]</strong> The effectiveness of our project will be assessed on how well we communicate our ideas and the extent to which our audience&hellip; <i>(draft in progress)</i></p>
+      </section>
+
+      <section id="challenges" aria-labelledby="h-challenges">
+        <h3 id="h-challenges">Addressing Challenges</h3>
+        <p class="placeholder"><strong>[Placeholder]</strong> Anticipated challenges and how we plan to address them will be added here.</p>
+      </section>
+    </div>
+
+    <div class="group">
+      <section id="references" aria-labelledby="h-references">
+        <h2 id="h-references">References</h2>
+        <ul class="refs">
+          <li>Erickson, K. I., Voss, M. W., Prakash, R. S., Basak, C., Szabo, A., Chaddock, L., ... Kramer, A. F. (2011). <a href="https://doi.org/10.1073/pnas.1015950108">Exercise training increases size of hippocampus and improves memory</a>. <i>Proceedings of the National Academy of Sciences, 108</i>(7), 3017&ndash;3022.</li>
+          <li>Livingston, G., Huntley, J., Liu, K. Y., Costafreda, S. G., Selb&aelig;k, G., Alladi, S., ... Mukadam, N. (2024). <a href="https://doi.org/10.1016/S0140-6736(24)01296-0">Dementia prevention, intervention, and care: 2024 report of the Lancet standing Commission</a>. <i>The Lancet, 404</i>(10452), 572&ndash;628.</li>
+          <li>NOVA. (2016). <a href="https://www.pbs.org/wgbh/nova/video/memory-hackers/"><i>Memory Hackers</i></a> [Documentary]. PBS.</li>
+          <li><span class="tag">[Placeholder]</span> Nyberg et al. (2019). Full reference to be confirmed.</li>
+        </ul>
+      </section>
+    </div>
+
+    <p class="back-top"><a href="#">Back to top</a></p>
+  </main>
+
+  <footer class="footer">
+    <p class="credit-line">Created by NSCI 140 Group 31 for educational purposes. Not medical advice.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  function $(id) { return document.getElementById(id); }
+
+  var storageOK = (function () {
+    try {
+      var t = '__bhh_test__';
+      window.localStorage.setItem(t, '1');
+      window.localStorage.removeItem(t);
+      return true;
+    } catch (e) { return false; }
+  })();
+
+
+  /* ---------- Appearance + color settings ---------- */
+  var PREFS_KEY = 'brainHealthHabits.prefs';
+  var MODES = ['system', 'light', 'dark'];
+  var ACCENTS = ['rose', 'sage', 'lake', 'plum'];
+  var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+  function loadPrefs() {
+    var p = {};
+    try { p = JSON.parse(window.localStorage.getItem(PREFS_KEY)) || {}; } catch (e) { p = {}; }
+    return {
+      mode: MODES.indexOf(p.mode) !== -1 ? p.mode : 'system',
+      accent: ACCENTS.indexOf(p.accent) !== -1 ? p.accent : 'rose'
+    };
+  }
+  function savePrefs() {
+    if (!storageOK) return;
+    try { window.localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) { /* keep working without saving */ }
+  }
+  var prefs = loadPrefs();
+
+  function applyTheme() {
+    var dark = prefs.mode === 'dark' || (prefs.mode === 'system' && !!darkQuery && darkQuery.matches);
+    var root = document.documentElement;
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    root.setAttribute('data-accent', prefs.accent);
+    $('themeColor').setAttribute('content', dark ? '#131313' : '#ffffff');
+  }
+
+  function setPref(key, value) {
+    if (prefs[key] === value) return;
+    prefs[key] = value;
+    savePrefs();
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (document.startViewTransition && !reduce) document.startViewTransition(applyTheme);
+    else applyTheme();
+  }
+
+  function syncSettingsUI() {
+    Array.prototype.forEach.call($('settings').querySelectorAll('input[type="radio"]'), function (i) {
+      i.checked = prefs[i.name] === i.value;
+    });
+  }
+
+  function setSettings(open) {
+    $('settings').hidden = !open;
+    $('settingsToggle').setAttribute('aria-expanded', String(open));
+    if (open) { syncSettingsUI(); $('settingsTitle').focus(); }
+    else $('settingsToggle').focus();
+  }
+
+  $('settingsToggle').addEventListener('click', function () { setSettings($('settings').hidden); });
+  $('settingsDone').addEventListener('click', function () { setSettings(false); });
+  $('settings').addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.name === 'mode' || t.name === 'accent') setPref(t.name, t.value);
+  });
+  $('settings').addEventListener('keydown', function (e) { if (e.key === 'Escape') setSettings(false); });
+
+  if (darkQuery) {
+    var onSystemChange = function () { if (prefs.mode === 'system') applyTheme(); };
+    if (darkQuery.addEventListener) darkQuery.addEventListener('change', onSystemChange);
+    else if (darkQuery.addListener) darkQuery.addListener(onSystemChange);
+  }
+  applyTheme();
+
+  window.addEventListener('storage', function (e) {
+    if (e.key === PREFS_KEY || e.key === null) { prefs = loadPrefs(); applyTheme(); syncSettingsUI(); }
+  });
+})();
+</script>
+</body>
+</html>

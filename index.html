@@ -9,7 +9,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 256 256%22 fill=%22%23ad336a%22%3E%3Cpath d=%22M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&display=swap" rel="stylesheet">
 <style>
   /* ---------- Tokens ----------
      Colour: restrained. Pure white (or near-black) base, neutrals lightly tinted
@@ -53,6 +54,10 @@
     --z-sticky: 10;
     --z-toast: 20;
 
+    /* Type: Fraunces for titles and subtitles, Alpino for everything else. */
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body: 'Alpino', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
     color-scheme: light;
   }
   :root[data-theme="dark"] {
@@ -78,18 +83,28 @@
   :root[data-accent="plum"] { --hue: 315; --primary: var(--plum-p); --primary-hover: var(--plum-h); --primary-soft: var(--plum-s); }
 
   /* ---------- Base ---------- */
+  /* Alpino (Indian Type Foundry, via Fontshare). Full https URLs so the font
+     also loads when the file is opened directly from disk. */
+  @font-face { font-family: 'Alpino'; font-style: normal; font-weight: 400; font-display: swap;
+    src: url('https://cdn.fontshare.com/wf/6YJSBFS7OUREUTICF3QVAEJJWILWSWE3/MJ6NZV3TIYVSHNYDZ3QUVVCZTVKZAXON/Z4Q4AHQTIFKTR36JAH4YU4DHHZTJRJMK.woff2') format('woff2'), url('https://cdn.fontshare.com/wf/6YJSBFS7OUREUTICF3QVAEJJWILWSWE3/MJ6NZV3TIYVSHNYDZ3QUVVCZTVKZAXON/Z4Q4AHQTIFKTR36JAH4YU4DHHZTJRJMK.woff') format('woff'); }
+  @font-face { font-family: 'Alpino'; font-style: normal; font-weight: 500; font-display: swap;
+    src: url('https://cdn.fontshare.com/wf/VWLAH6SDBL46SHHO2PS7WIRRCSRUNLGL/KIW45C7W7F65MB47Z6ZGVEI3LJ5LRUEK/5H7H3NLI264G2V2IR4SWUJYYY3ELL2HP.woff2') format('woff2'), url('https://cdn.fontshare.com/wf/VWLAH6SDBL46SHHO2PS7WIRRCSRUNLGL/KIW45C7W7F65MB47Z6ZGVEI3LJ5LRUEK/5H7H3NLI264G2V2IR4SWUJYYY3ELL2HP.woff') format('woff'); }
+  @font-face { font-family: 'Alpino'; font-style: normal; font-weight: 700; font-display: swap;
+    src: url('https://cdn.fontshare.com/wf/ZWZDGYLYZABMUG7MVKQ73OTMQ3O7KJBS/3POZOHUJ6MLWJL4OB5YQBFATRGS5O65N/JA5K34CNW5SGRK6O7S72AYZZYXSOTCJX.woff2') format('woff2'), url('https://cdn.fontshare.com/wf/ZWZDGYLYZABMUG7MVKQ73OTMQ3O7KJBS/3POZOHUJ6MLWJL4OB5YQBFATRGS5O65N/JA5K34CNW5SGRK6O7S72AYZZYXSOTCJX.woff') format('woff'); }
   *, *::before, *::after { box-sizing: border-box; }
   html { font-size: 112.5%; -webkit-text-size-adjust: 100%; } /* 1rem = 18px */
   body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, p { margin: 0; }
+  h1, h2, h3, h4, .brand { font-family: var(--font-display); font-optical-sizing: auto; }
+  .wk-title h3 { font-family: var(--font-body); } /* habit names are labels, matching the Today list */
   h1, h2, h3 { line-height: 1.2; text-wrap: balance; }
   p { text-wrap: pretty; }
   button, input { font: inherit; color: inherit; }
@@ -105,14 +120,31 @@
   @media (min-width: 960px) { .app { padding: 24px 40px 48px; } }
 
   /* ---------- Masthead ---------- */
-  .masthead { display: flex; align-items: center; gap: 12px; min-height: 56px; margin-bottom: 24px; }
+  .masthead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-height: 56px; margin-bottom: 24px; }
   .logo {
     width: 40px; height: 40px; border-radius: var(--r-md); flex: none;
     display: grid; place-items: center;
     background: var(--primary-soft); color: var(--primary);
   }
   .logo svg { width: 24px; height: 24px; }
-  .brand { flex: 1; min-width: 0; font-weight: 700; font-size: 0.944rem; letter-spacing: 0.005em; }
+  .brand-link {
+    flex: 1; min-width: 0; min-height: 44px; display: flex; align-items: center; gap: 12px;
+    color: inherit; text-decoration: none; border-radius: var(--r-md);
+  }
+  .brand { min-width: 0; font-weight: 700; font-size: 0.944rem; letter-spacing: 0.005em; }
+  .site-nav { order: 3; flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 6px; }
+  .site-nav a {
+    min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center;
+    border-radius: var(--r-pill); font-weight: 700; font-size: 0.944rem;
+    color: var(--muted); text-decoration: none;
+    transition: background-color .18s var(--ease-out), color .18s var(--ease-out);
+  }
+  .site-nav a:hover { background: var(--surface); color: var(--ink); }
+  .site-nav a[aria-current="page"] { background: var(--primary-soft); color: var(--primary); }
+  @media (min-width: 720px) {
+    .brand-link { flex: 0 1 auto; }
+    .site-nav { order: 0; flex-basis: auto; margin-left: auto; }
+  }
   .icon-btn {
     min-width: 44px; min-height: 44px; padding: 0 12px; flex: none;
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -181,7 +213,7 @@
     .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: 64px; align-items: start; }
   }
 
-  h1 { font-size: 1.728rem; font-weight: 800; letter-spacing: -0.01em; }
+  h1 { font-size: 1.728rem; font-weight: 700; letter-spacing: -0.005em; }
   .section-title { font-size: 1.2rem; font-weight: 700; }
   .hint { color: var(--muted); font-size: 0.889rem; margin-top: 4px; }
 
@@ -411,6 +443,7 @@
   .reset-confirm .confirm-actions { justify-content: center; }
   .disclaimer { color: var(--muted); font-size: 0.889rem; max-width: 36em; margin: 18px auto 0; }
   .source { color: var(--muted); font-size: 0.778rem; max-width: 44em; margin: 10px auto 0; }
+  .credit-line { font-weight: 700; font-size: 0.889rem; max-width: 36em; margin: 10px auto 0; }
 
   /* ---------- Toast ---------- */
   .toast {
@@ -445,8 +478,11 @@
 <body>
 <div class="app">
   <header class="masthead">
-    <span class="logo" aria-hidden="true"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z"/></svg></span>
-    <span class="brand">Brain Health Habits</span>
+    <a class="brand-link" href="index.html"><span class="logo" aria-hidden="true"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z"/></svg></span><span class="brand">Brain Health Habits</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="index.html" aria-current="page">Tracker</a>
+      <a href="about.html">About This Project</a>
+    </nav>
     <button type="button" class="icon-btn" id="settingsToggle" aria-expanded="false" aria-controls="settings" aria-label="Settings" title="Settings"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z"/></svg><span class="icon-btn-label" aria-hidden="true">Settings</span></button>
   </header>
 
@@ -562,6 +598,7 @@
       </div>
     </div>
     <p class="disclaimer">This tracker is for education only and is not medical advice. Talk to a doctor about any memory concerns.</p>
+    <p class="credit-line">Created by NSCI 140 Group 31 for educational purposes. Not medical advice.</p>
     <p class="source">Habits are inspired by research on brain health, including the 2024 Lancet Commission report on dementia prevention, intervention, and care (Livingston et al., <i>The Lancet</i>, 2024).</p>
   </footer>
 </div>
