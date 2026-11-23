@@ -5,42 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Brain Health Habits</title>
 <meta name="description" content="A simple habit tracker for small daily habits that support brain health and memory.">
-<meta name="theme-color" content="#ffffff" id="themeColor">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 256 256%22 fill=%22%23ad336a%22%3E%3Cpath d=%22M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z%22/%3E%3C/svg%3E">
+<meta name="theme-color" content="#FFFBE9" id="themeColor">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 256 256%22 fill=%22%23AD8B73%22%3E%3Cpath d=%22M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&display=swap" rel="stylesheet">
 <style>
   /* ---------- Tokens ----------
-     Colour: restrained. Pure white (or near-black) base, neutrals lightly tinted
-     toward the chosen color's hue, one primary for actions and done states,
-     marigold only for streaks. The head script sets data-theme (light/dark)
-     and data-accent (rose/sage/lake/plum) on <html> before first paint.
+     Colour: a warm "Mocha" palette (#AD8B73, #CEAB93, #E3CAA5, #FFFBE9).
+     Cream base, latte surfaces and borders, mocha for actions and done states,
+     marigold only for streaks. Text on mocha is dark brown, and text-coloured
+     uses of the primary go through --primary-text, so everything passes WCAG AA.
+     The head script sets data-theme (light/dark) and data-accent
+     (mocha/sage/lake/plum) on <html> before first paint.
      Shape: 14px for rows and panels, 10px for tiles, inputs and day cells,
      full pill for buttons and badges, circles for check marks. */
   :root {
-    /* Color themes, light values (each passes WCAG AA with this page's neutrals) */
-    --rose-p: oklch(0.52 0.165 357); --rose-h: oklch(0.46 0.16 357);  --rose-s: oklch(0.955 0.025 357);
-    --sage-p: oklch(0.5 0.1 150);    --sage-h: oklch(0.44 0.095 150); --sage-s: oklch(0.955 0.03 150);
-    --lake-p: oklch(0.5 0.12 230);   --lake-h: oklch(0.44 0.115 230); --lake-s: oklch(0.955 0.025 230);
-    --plum-p: oklch(0.5 0.14 315);   --plum-h: oklch(0.44 0.135 315); --plum-s: oklch(0.955 0.025 315);
+    /* Palette */
+    --mocha: #AD8B73;
+    --tan: #CEAB93;
+    --latte: #E3CAA5;
+    --cream: #FFFBE9;
 
-    --hue: 357;
-    --primary: var(--rose-p);
-    --primary-hover: var(--rose-h);
-    --primary-soft: var(--rose-s);
+    /* Color themes, light values (p = fill, h = hover, s = soft fill, t = text) */
+    --mocha-p: var(--mocha);          --mocha-h: var(--tan);           --mocha-s: var(--latte);             --mocha-t: #6E5140;
+    --sage-p: oklch(0.5 0.1 150);    --sage-h: oklch(0.44 0.095 150); --sage-s: oklch(0.94 0.035 150);    --sage-t: var(--sage-p);
+    --lake-p: oklch(0.5 0.12 230);   --lake-h: oklch(0.44 0.115 230); --lake-s: oklch(0.94 0.03 230);     --lake-t: var(--lake-p);
+    --plum-p: oklch(0.5 0.14 315);   --plum-h: oklch(0.44 0.135 315); --plum-s: oklch(0.94 0.03 315);     --plum-t: var(--plum-p);
 
-    --bg: oklch(1 0 0);
-    --surface: oklch(0.972 0.007 var(--hue));
-    --surface-2: oklch(0.945 0.012 var(--hue));
-    --ink: oklch(0.25 0.02 var(--hue));
-    --muted: oklch(0.47 0.02 var(--hue));
-    --on-primary: oklch(1 0 0);
+    --primary: var(--mocha-p);
+    --primary-hover: var(--mocha-h);
+    --primary-soft: var(--mocha-s);
+    --primary-text: var(--mocha-t);
+    --on-primary: #2B1F17;
+
+    --bg: var(--cream);
+    --surface: color-mix(in srgb, var(--latte) 32%, var(--cream));
+    --surface-2: color-mix(in srgb, var(--latte) 60%, var(--cream));
+    --ink: #3A2A20;
+    --muted: #6B5446;
     --accent: oklch(0.83 0.13 78);
     --on-accent: oklch(0.25 0.04 60);
-    --border: oklch(0.91 0.008 var(--hue));
-    --border-strong: oklch(0.64 0.02 var(--hue));
+    --border: color-mix(in srgb, var(--tan) 50%, var(--cream));
+    --border-strong: var(--mocha);
     --danger: oklch(0.47 0.16 30);
     --on-danger: oklch(1 0 0);
 
@@ -61,26 +69,27 @@
     color-scheme: light;
   }
   :root[data-theme="dark"] {
-    --rose-p: oklch(0.76 0.12 357); --rose-h: oklch(0.81 0.1 357);   --rose-s: oklch(0.27 0.05 357);
-    --sage-p: oklch(0.78 0.1 150);  --sage-h: oklch(0.83 0.085 150); --sage-s: oklch(0.27 0.04 150);
-    --lake-p: oklch(0.78 0.1 230);  --lake-h: oklch(0.83 0.085 230); --lake-s: oklch(0.27 0.045 230);
-    --plum-p: oklch(0.77 0.11 315); --plum-h: oklch(0.82 0.09 315);  --plum-s: oklch(0.27 0.05 315);
+    --mocha-p: var(--tan);          --mocha-h: var(--latte);         --mocha-s: #3D2F25;                  --mocha-t: var(--latte);
+    --sage-p: oklch(0.78 0.1 150);  --sage-h: oklch(0.83 0.085 150); --sage-s: oklch(0.29 0.04 150);    --sage-t: var(--sage-p);
+    --lake-p: oklch(0.78 0.1 230);  --lake-h: oklch(0.83 0.085 230); --lake-s: oklch(0.29 0.045 230);   --lake-t: var(--lake-p);
+    --plum-p: oklch(0.77 0.11 315); --plum-h: oklch(0.82 0.09 315);  --plum-s: oklch(0.29 0.05 315);    --plum-t: var(--plum-p);
 
-    --bg: oklch(0.17 0 0);
-    --surface: oklch(0.215 0.008 var(--hue));
-    --surface-2: oklch(0.26 0.012 var(--hue));
-    --ink: oklch(0.95 0.006 var(--hue));
-    --muted: oklch(0.76 0.015 var(--hue));
-    --on-primary: oklch(0.2 0.03 var(--hue));
-    --border: oklch(0.3 0.008 var(--hue));
-    --border-strong: oklch(0.55 0.02 var(--hue));
+    --bg: #1E1712;
+    --surface: #29201A;
+    --surface-2: #34291F;
+    --ink: var(--cream);
+    --muted: var(--tan);
+    --on-primary: #211913;
+    --border: #3D3027;
+    --border-strong: #8A6F5C;
     --danger: oklch(0.75 0.13 30);
     --on-danger: oklch(0.17 0 0);
     color-scheme: dark;
   }
-  :root[data-accent="sage"] { --hue: 150; --primary: var(--sage-p); --primary-hover: var(--sage-h); --primary-soft: var(--sage-s); }
-  :root[data-accent="lake"] { --hue: 230; --primary: var(--lake-p); --primary-hover: var(--lake-h); --primary-soft: var(--lake-s); }
-  :root[data-accent="plum"] { --hue: 315; --primary: var(--plum-p); --primary-hover: var(--plum-h); --primary-soft: var(--plum-s); }
+  :root[data-theme="light"]:not([data-accent="mocha"]) { --on-primary: oklch(1 0 0); }
+  :root[data-accent="sage"] { --primary: var(--sage-p); --primary-hover: var(--sage-h); --primary-soft: var(--sage-s); --primary-text: var(--sage-t); }
+  :root[data-accent="lake"] { --primary: var(--lake-p); --primary-hover: var(--lake-h); --primary-soft: var(--lake-s); --primary-text: var(--lake-t); }
+  :root[data-accent="plum"] { --primary: var(--plum-p); --primary-hover: var(--plum-h); --primary-soft: var(--plum-s); --primary-text: var(--plum-t); }
 
   /* ---------- Base ---------- */
   /* Alpino (Indian Type Foundry, via Fontshare). Full https URLs so the font
@@ -124,7 +133,7 @@
   .logo {
     width: 40px; height: 40px; border-radius: var(--r-md); flex: none;
     display: grid; place-items: center;
-    background: var(--primary-soft); color: var(--primary);
+    background: var(--primary-soft); color: var(--primary-text);
   }
   .logo svg { width: 24px; height: 24px; }
   .brand-link {
@@ -140,7 +149,7 @@
     transition: background-color .18s var(--ease-out), color .18s var(--ease-out);
   }
   .site-nav a:hover { background: var(--surface); color: var(--ink); }
-  .site-nav a[aria-current="page"] { background: var(--primary-soft); color: var(--primary); }
+  .site-nav a[aria-current="page"] { background: var(--primary-soft); color: var(--primary-text); }
   @media (min-width: 720px) {
     .brand-link { flex: 0 1 auto; }
     .site-nav { order: 0; flex-basis: auto; margin-left: auto; }
@@ -256,7 +265,7 @@
   .tile {
     width: 44px; height: 44px; border-radius: var(--r-md); flex: none;
     display: grid; place-items: center;
-    background: var(--surface); color: var(--primary);
+    background: var(--surface); color: var(--primary-text);
   }
   .choice.on .tile { background: var(--bg); }
   .tile svg { width: 24px; height: 24px; }
@@ -316,7 +325,7 @@
   .habit-row[aria-pressed="true"] { background: var(--primary-soft); border-color: var(--primary); }
   .check {
     position: relative; width: 44px; height: 44px; border-radius: 50%; flex: none;
-    border: 2px solid var(--border-strong); color: var(--primary);
+    border: 2px solid var(--border-strong); color: var(--primary-text);
     display: grid; place-items: center;
     transition: background-color .2s var(--ease-out), border-color .2s var(--ease-out), color .2s var(--ease-out);
   }
@@ -386,7 +395,7 @@
   details.why { margin-top: 6px; }
   details.why summary {
     display: inline-flex; align-items: center; gap: 6px; min-height: 44px;
-    font-weight: 700; color: var(--primary); cursor: pointer; list-style: none;
+    font-weight: 700; color: var(--primary-text); cursor: pointer; list-style: none;
     border-radius: var(--r-md);
   }
   details.why summary::-webkit-details-marker { display: none; }
@@ -451,7 +460,7 @@
     width: max-content; max-width: calc(100% - 32px);
     padding: 12px 20px; border-radius: var(--r-pill);
     background: var(--ink); color: var(--bg); font-weight: 700; text-align: center;
-    box-shadow: 0 4px 8px oklch(0.2 0.02 355 / 0.18);
+    box-shadow: 0 4px 8px rgb(58 42 32 / 0.18);
     opacity: 0; transform: translate(-50%, 12px); pointer-events: none;
     transition: opacity .2s var(--ease-out), transform .25s var(--ease-expo);
   }
@@ -471,7 +480,7 @@
     var dark = mode === 'dark' || (mode === 'system' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
     var root = document.documentElement;
     root.setAttribute('data-theme', dark ? 'dark' : 'light');
-    root.setAttribute('data-accent', /^(rose|sage|lake|plum)$/.test(p.accent) ? p.accent : 'rose');
+    root.setAttribute('data-accent', /^(mocha|sage|lake|plum)$/.test(p.accent) ? p.accent : 'mocha');
   })();
 </script>
 </head>
@@ -500,7 +509,7 @@
     <fieldset class="opt-group">
       <legend>Color</legend>
       <div class="swatches">
-        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="rose"><span class="opt-card"><span class="sw" style="--c: var(--rose-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Rose</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="mocha"><span class="opt-card"><span class="sw" style="--c: var(--mocha-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Mocha</span></label>
         <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="sage"><span class="opt-card"><span class="sw" style="--c: var(--sage-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Sage</span></label>
         <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="lake"><span class="opt-card"><span class="sw" style="--c: var(--lake-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Lake</span></label>
         <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="plum"><span class="opt-card"><span class="sw" style="--c: var(--plum-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Plum</span></label>
@@ -1136,7 +1145,7 @@
   /* ---------- Appearance + color settings ---------- */
   var PREFS_KEY = 'brainHealthHabits.prefs';
   var MODES = ['system', 'light', 'dark'];
-  var ACCENTS = ['rose', 'sage', 'lake', 'plum'];
+  var ACCENTS = ['mocha', 'sage', 'lake', 'plum'];
   var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
   function loadPrefs() {
@@ -1144,7 +1153,7 @@
     try { p = JSON.parse(window.localStorage.getItem(PREFS_KEY)) || {}; } catch (e) { p = {}; }
     return {
       mode: MODES.indexOf(p.mode) !== -1 ? p.mode : 'system',
-      accent: ACCENTS.indexOf(p.accent) !== -1 ? p.accent : 'rose'
+      accent: ACCENTS.indexOf(p.accent) !== -1 ? p.accent : 'mocha'
     };
   }
   function savePrefs() {
@@ -1158,7 +1167,7 @@
     var root = document.documentElement;
     root.setAttribute('data-theme', dark ? 'dark' : 'light');
     root.setAttribute('data-accent', prefs.accent);
-    $('themeColor').setAttribute('content', dark ? '#131313' : '#ffffff');
+    $('themeColor').setAttribute('content', dark ? '#1E1712' : '#FFFBE9');
   }
 
   function setPref(key, value) {
