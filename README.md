@@ -2,7 +2,7 @@
 
 A calm, simple habit tracker that helps middle-aged adults (about 40 to 65) adopt small, evidence-based habits that support brain health and memory as they age.
 
-Built as a prototype for a university neuroscience group project (NSCI 140) on aging and memory.
+Built as a prototype for a university neuroscience group project (NSCI 140, Group 31) on aging and memory.
 
 ## How to use it
 
@@ -19,6 +19,8 @@ Your data is saved only in your own browser (localStorage). Nothing is sent anyw
 - **Kind feedback:** encouraging messages that never shame a missed day.
 - **Why this helps:** a short, plain-language explanation for each habit.
 - **Reset:** clear all data, with a confirmation step first.
+- **Themes:** a settings panel for light, dark, or device appearance and four color options.
+- **About This Project:** a second page with the project write-up (course concepts, research evidence, significance, impact) and APA references.
 - **Accessible:** 18px base text, WCAG AA contrast, 44px+ tap targets, keyboard and screen reader support, dark mode, and reduced-motion support.
 
 ## The habits
@@ -36,7 +38,8 @@ The habits are inspired by research on brain health, including the 2024 Lancet C
 
 ## Files
 
-- `index.html`: the complete app (HTML, CSS, and JavaScript in one file).
+- `index.html`: the habit tracker (HTML, CSS, and JavaScript in one file).
+- `about.html`: the About This Project page with the NSCI 140 Group 31 write-up. Unfinished sections show as marked placeholders.
 - `PRODUCT.md`: the design brief (users, purpose, personality, accessibility goals).
 
 ## Credits
