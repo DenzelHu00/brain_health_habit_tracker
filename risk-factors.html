@@ -13,31 +13,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..800&display=swap" rel="stylesheet">
 <style>
   /* ---------- Tokens ----------
-     Colour: a warm "Mocha" palette (#AD8B73, #CEAB93, #E3CAA5, #FFFBE9).
-     Cream base, latte surfaces and borders, mocha for actions and done states,
-     marigold only for streaks. Text on mocha is dark brown, and text-coloured
-     uses of the primary go through --primary-text, so everything passes WCAG AA.
+     Colour: two full palettes, picked under Settings > Color.
+       Mocha (default): #AD8B73, #CEAB93, #E3CAA5, #FFFBE9
+       Ocean:           #3368A0, #66A3BF, #C8DFDB, #F2EFE7
+     Each palette sets the base, surfaces, borders, text and primary, in light
+     and dark. Marigold is used only for streaks. Text-coloured uses of the
+     primary go through --primary-text, so everything passes WCAG AA.
      The head script sets data-theme (light/dark) and data-accent
-     (mocha/sage/lake/plum) on <html> before first paint.
+     (mocha/ocean) on <html> before first paint.
      Shape: 14px for rows and panels, 10px for tiles, inputs and day cells,
      full pill for buttons and badges, circles for check marks. */
   :root {
-    /* Palette */
-    --mocha: #AD8B73;
-    --tan: #CEAB93;
-    --latte: #E3CAA5;
-    --cream: #FFFBE9;
+    /* Palettes */
+    --mocha: #AD8B73;  --tan: #CEAB93;   --latte: #E3CAA5; --cream: #FFFBE9;
+    --navy: #3368A0;   --sky: #66A3BF;   --mist: #C8DFDB;  --linen: #F2EFE7;
 
-    /* Color themes, light values (p = fill, h = hover, s = soft fill, t = text) */
-    --mocha-p: var(--mocha);          --mocha-h: var(--tan);           --mocha-s: var(--latte);             --mocha-t: #6E5140;
-    --sage-p: oklch(0.5 0.1 150);    --sage-h: oklch(0.44 0.095 150); --sage-s: oklch(0.94 0.035 150);    --sage-t: var(--sage-p);
-    --lake-p: oklch(0.5 0.12 230);   --lake-h: oklch(0.44 0.115 230); --lake-s: oklch(0.94 0.03 230);     --lake-t: var(--lake-p);
-    --plum-p: oklch(0.5 0.14 315);   --plum-h: oklch(0.44 0.135 315); --plum-s: oklch(0.94 0.03 315);     --plum-t: var(--plum-p);
+    /* Swatch colors for the picker */
+    --mocha-p: var(--mocha);
+    --ocean-p: var(--navy);
 
-    --primary: var(--mocha-p);
-    --primary-hover: var(--mocha-h);
-    --primary-soft: var(--mocha-s);
-    --primary-text: var(--mocha-t);
+    /* Mocha, light (default) */
+    --primary: var(--mocha);
+    --primary-hover: var(--tan);
+    --primary-soft: var(--latte);
+    --primary-text: #6E5140;
     --on-primary: #2B1F17;
 
     --bg: var(--cream);
@@ -45,10 +44,11 @@
     --surface-2: color-mix(in srgb, var(--latte) 60%, var(--cream));
     --ink: #3A2A20;
     --muted: #6B5446;
-    --accent: oklch(0.83 0.13 78);
-    --on-accent: oklch(0.25 0.04 60);
     --border: color-mix(in srgb, var(--tan) 50%, var(--cream));
     --border-strong: var(--mocha);
+
+    --accent: oklch(0.83 0.13 78);
+    --on-accent: oklch(0.25 0.04 60);
     --danger: oklch(0.47 0.16 30);
     --on-danger: oklch(1 0 0);
 
@@ -68,28 +68,60 @@
 
     color-scheme: light;
   }
+  /* Ocean, light */
+  :root[data-accent="ocean"] {
+    --primary: var(--navy);
+    --primary-hover: #2A5786;
+    --primary-soft: var(--mist);
+    --primary-text: #2A5786;
+    --on-primary: #FFFFFF;
+
+    --bg: var(--linen);
+    --surface: color-mix(in srgb, var(--mist) 32%, var(--linen));
+    --surface-2: color-mix(in srgb, var(--mist) 60%, var(--linen));
+    --ink: #1F2D3A;
+    --muted: #4A5A66;
+    --border: color-mix(in srgb, var(--sky) 35%, var(--linen));
+    --border-strong: #4A86A3;
+  }
+  /* Mocha, dark */
   :root[data-theme="dark"] {
-    --mocha-p: var(--tan);          --mocha-h: var(--latte);         --mocha-s: #3D2F25;                  --mocha-t: var(--latte);
-    --sage-p: oklch(0.78 0.1 150);  --sage-h: oklch(0.83 0.085 150); --sage-s: oklch(0.29 0.04 150);    --sage-t: var(--sage-p);
-    --lake-p: oklch(0.78 0.1 230);  --lake-h: oklch(0.83 0.085 230); --lake-s: oklch(0.29 0.045 230);   --lake-t: var(--lake-p);
-    --plum-p: oklch(0.77 0.11 315); --plum-h: oklch(0.82 0.09 315);  --plum-s: oklch(0.29 0.05 315);    --plum-t: var(--plum-p);
+    --mocha-p: var(--tan);
+    --ocean-p: var(--sky);
+
+    --primary: var(--tan);
+    --primary-hover: var(--latte);
+    --primary-soft: #3D2F25;
+    --primary-text: var(--latte);
+    --on-primary: #211913;
 
     --bg: #1E1712;
     --surface: #29201A;
     --surface-2: #34291F;
     --ink: var(--cream);
     --muted: var(--tan);
-    --on-primary: #211913;
     --border: #3D3027;
     --border-strong: #8A6F5C;
     --danger: oklch(0.75 0.13 30);
     --on-danger: oklch(0.17 0 0);
     color-scheme: dark;
   }
-  :root[data-theme="light"]:not([data-accent="mocha"]) { --on-primary: oklch(1 0 0); }
-  :root[data-accent="sage"] { --primary: var(--sage-p); --primary-hover: var(--sage-h); --primary-soft: var(--sage-s); --primary-text: var(--sage-t); }
-  :root[data-accent="lake"] { --primary: var(--lake-p); --primary-hover: var(--lake-h); --primary-soft: var(--lake-s); --primary-text: var(--lake-t); }
-  :root[data-accent="plum"] { --primary: var(--plum-p); --primary-hover: var(--plum-h); --primary-soft: var(--plum-s); --primary-text: var(--plum-t); }
+  /* Ocean, dark */
+  :root[data-theme="dark"][data-accent="ocean"] {
+    --primary: var(--sky);
+    --primary-hover: var(--mist);
+    --primary-soft: #1F3442;
+    --primary-text: var(--mist);
+    --on-primary: #14202A;
+
+    --bg: #141C22;
+    --surface: #1C262E;
+    --surface-2: #25313A;
+    --ink: var(--linen);
+    --muted: var(--mist);
+    --border: #2B3943;
+    --border-strong: #5E8496;
+  }
 
   /* ---------- Base ---------- */
   /* Alpino (Indian Type Foundry, via Fontshare). Full https URLs so the font
@@ -182,7 +214,6 @@
   .opt-group legend { padding: 0; margin-bottom: 10px; font-weight: 700; }
   .seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   .swatches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  @media (min-width: 480px) { .swatches { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
   .opt { display: block; cursor: pointer; }
   .opt-card {
     height: 100%; border: 2px solid var(--border); border-radius: var(--r-md);
@@ -318,7 +349,7 @@
     var dark = mode === 'dark' || (mode === 'system' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
     var root = document.documentElement;
     root.setAttribute('data-theme', dark ? 'dark' : 'light');
-    root.setAttribute('data-accent', /^(mocha|sage|lake|plum)$/.test(p.accent) ? p.accent : 'mocha');
+    root.setAttribute('data-accent', /^(mocha|ocean)$/.test(p.accent) ? p.accent : 'mocha');
   })();
 </script>
 </head>
@@ -349,9 +380,7 @@
       <legend>Color</legend>
       <div class="swatches">
         <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="mocha"><span class="opt-card"><span class="sw" style="--c: var(--mocha-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Mocha</span></label>
-        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="sage"><span class="opt-card"><span class="sw" style="--c: var(--sage-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Sage</span></label>
-        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="lake"><span class="opt-card"><span class="sw" style="--c: var(--lake-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Lake</span></label>
-        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="plum"><span class="opt-card"><span class="sw" style="--c: var(--plum-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Plum</span></label>
+        <label class="opt"><input class="visually-hidden" type="radio" name="accent" value="ocean"><span class="opt-card"><span class="sw" style="--c: var(--ocean-p)"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span>Ocean</span></label>
       </div>
     </fieldset>
     <div class="settings-foot">
@@ -534,7 +563,7 @@
   /* ---------- Appearance + color settings ---------- */
   var PREFS_KEY = 'brainHealthHabits.prefs';
   var MODES = ['system', 'light', 'dark'];
-  var ACCENTS = ['mocha', 'sage', 'lake', 'plum'];
+  var ACCENTS = ['mocha', 'ocean'];
   var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
   function loadPrefs() {
@@ -556,7 +585,8 @@
     var root = document.documentElement;
     root.setAttribute('data-theme', dark ? 'dark' : 'light');
     root.setAttribute('data-accent', prefs.accent);
-    $('themeColor').setAttribute('content', dark ? '#1E1712' : '#FFFBE9');
+    var ocean = prefs.accent === 'ocean';
+    $('themeColor').setAttribute('content', dark ? (ocean ? '#141C22' : '#1E1712') : (ocean ? '#F2EFE7' : '#FFFBE9'));
   }
 
   function setPref(key, value) {
