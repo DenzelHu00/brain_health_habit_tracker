@@ -289,7 +289,8 @@
   @media (min-width: 560px) { .toc ol { grid-template-columns: 1fr 1fr; column-gap: 20px; } }
   .toc a { display: flex; align-items: center; min-height: 44px; font-weight: 700; }
   .group { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); }
-  .group > h2 { font-size: 1.44rem; font-weight: 700; }
+  .group > h2, .group > section > h2 { font-size: 1.44rem; font-weight: 700; }
+  .group > section:first-child { margin-top: 0; }
   .group section { margin-top: 28px; }
   .group h3 { font-size: 1.2rem; font-weight: 700; }
   .group h4 { font-size: 1rem; font-weight: 700; margin-top: 22px; }
@@ -335,6 +336,11 @@
   .note { margin-top: 16px; color: var(--muted); font-size: 0.889rem; }
   .cta { margin-top: 28px; }
   .article a.btn { color: var(--on-primary); text-decoration: none; }
+  /* Supporting habits (not part of the 14 Lancet factors): no share bar, soft label. */
+  .kind { display: inline-block; padding: 0 8px; border-radius: var(--r-pill); background: var(--primary-soft); color: var(--primary-text); font-size: 0.778rem; font-weight: 700; }
+  .factor p + p { margin-top: 0; }
+  .sublabel { margin-top: 20px; font-weight: 700; }
+  .sublabel + .actions { margin-top: 6px; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -404,6 +410,8 @@
           <li><a href="#early-life">Early life</a></li>
           <li><a href="#midlife">Midlife (about 40 to 65)</a></li>
           <li><a href="#later-life">Later life</a></li>
+          <li><a href="#beyond-the-14">Beyond the 14: Sleep and stress</a></li>
+          <li><a href="#substance-use">Spotlight: Substance use</a></li>
           <li><a href="#what-helps">What helps most</a></li>
           <li><a href="#how-to-read">How to read these numbers</a></li>
           <li><a href="#references">References</a></li>
@@ -463,7 +471,7 @@
           <li class="factor">
             <div class="factor-head"><span class="factor-name">Smoking</span></div>
             <div class="share"><div class="bar" aria-hidden="true"><span style="width: 29%"></span></div><span class="share-num">2%<span class="visually-hidden"> of cases</span></span></div>
-            <p class="habit">Quitting at any age helps.</p>
+            <p class="habit">Quitting at any age helps. <a href="#substance-use">Learn more<span class="visually-hidden"> about smoking and brain health</span></a></p>
           </li>
           <li class="factor">
             <div class="factor-head"><span class="factor-name">High blood pressure</span></div>
@@ -478,7 +486,7 @@
           <li class="factor">
             <div class="factor-head"><span class="factor-name">Excessive alcohol</span></div>
             <div class="share"><div class="bar" aria-hidden="true"><span style="width: 14%"></span></div><span class="share-num">1%<span class="visually-hidden"> of cases</span></span></div>
-            <p class="habit">Drink less, or add your own habit.</p>
+            <p class="habit">Drink less, or add your own habit. <a href="#substance-use">Learn more<span class="visually-hidden"> about alcohol and brain health</span></a></p>
           </li>
         </ul>
       </section>
@@ -501,6 +509,41 @@
             <div class="share"><div class="bar" aria-hidden="true"><span style="width: 29%"></span></div><span class="share-num">2%<span class="visually-hidden"> of cases</span></span></div>
             <p class="habit">Tracker habit: <b>Check in on your health</b>. Regular eye exams and glasses.</p>
           </li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="group">
+      <section id="beyond-the-14" aria-labelledby="h-beyond-the-14">
+        <h2 id="h-beyond-the-14">Beyond the 14: Sleep and Stress</h2>
+        <p class="note">The 14 factors above have the strongest evidence. Sleep and chronic stress are not on the Lancet Commission&rsquo;s list, but research on memory and the brain links both to brain health, so we include them as supporting habits.</p>
+        <ul class="factors">
+          <li class="factor">
+            <div class="factor-head"><span class="factor-name">Sleep</span> <span class="kind">Supporting habit</span></div>
+            <p><b>What we know:</b> Sleep helps the brain consolidate new memories into long-term storage [Author, Year].</p>
+            <p><b>What&rsquo;s still uncertain:</b> The 2024 Lancet Commission concluded that sleep duration on its own is unlikely to be a direct risk factor for dementia, and whether treating sleep problems prevents dementia is still unclear (Livingston et al., 2024).</p>
+            <p class="habit">Tracker habit: <b>Get 7 or more hours of sleep</b>.</p>
+          </li>
+          <li class="factor">
+            <div class="factor-head"><span class="factor-name">Chronic stress</span> <span class="kind">Supporting habit</span></div>
+            <p><b>What we know:</b> Long-term stress keeps cortisol levels high, which can shrink the hippocampus and weaken the prefrontal cortex. These effects are often reversible. Chronic stress can also contribute to depression, which is one of the 14 risk factors [Author, Year].</p>
+            <p><b>What&rsquo;s still uncertain:</b> Chronic stress is not one of the Commission&rsquo;s 14 factors, so its direct effect on dementia risk is less established.</p>
+            <p class="habit">Tracker habit: <b>Take a calming break</b>.</p>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="group">
+      <section id="substance-use" aria-labelledby="h-substance-use">
+        <h2 id="h-substance-use">Spotlight: Substance Use</h2>
+        <p class="placeholder">[Paragraph to be added (about 4 sentences): how smoking and alcohol affect brain health and dementia risk, with a citation] [Author, Year]</p>
+        <p class="sublabel">Learn more</p>
+        <!-- To fill in a resource: add href="https://..." to the <a> and replace the bracketed text with the link title. target and rel are already set so it opens in a new tab. -->
+        <ul class="actions">
+          <li><a target="_blank" rel="noopener noreferrer">[Resource 1: link title and URL to be added]</a></li>
+          <li><a target="_blank" rel="noopener noreferrer">[Resource 2: link title and URL to be added]</a></li>
+          <li><a target="_blank" rel="noopener noreferrer">[Resource 3: link title and URL to be added]</a></li>
         </ul>
       </section>
     </div>
@@ -533,6 +576,9 @@
         <h2 id="h-references">References</h2>
         <ul class="refs">
           <li>Livingston, G., Huntley, J., Liu, K. Y., Costafreda, S. G., Selb&aelig;k, G., Alladi, S., ... Mukadam, N. (2024). <a href="https://doi.org/10.1016/S0140-6736(24)01296-0">Dementia prevention, intervention, and care: 2024 report of the Lancet standing Commission</a>. <i>The Lancet, 404</i>(10452), 572&ndash;628.</li>
+          <li><span class="tag">[Placeholder]</span> Sleep source: full reference to be added.</li>
+          <li><span class="tag">[Placeholder]</span> Chronic stress source: full reference to be added.</li>
+          <li><span class="tag">[Placeholder]</span> Substance use source: full reference to be added.</li>
         </ul>
       </section>
     </div>
