@@ -434,6 +434,105 @@
   details.why[open] summary svg { transform: rotate(90deg); }
   details.why p { padding: 0 0 8px 24px; max-width: 60ch; }
 
+  /* ---------- Brain Garden ----------
+     Garden-only colours (soil, leaves, petals). Global tokens are untouched.
+     Plants are inline SVG; every shape uses a g-* class so both themes work. */
+  :root {
+    --g-soil: #C4A184;      --g-grass: #A3B58F;     --g-seed: #8A6A50;      --g-pebble: #DCC6AD;
+    --g-stem: #6F8C5B;      --g-leaf: #7A9964;      --g-leaf-2: #A2BB88;    --g-leaf-3: #5D7B4D;
+    --g-bark: #8E6C52;      --g-lav-leaf: #92A68C;  --g-lav: #8F7BC0;       --g-lav-2: #B9A9DE;
+    --g-sun: #E5B23F;       --g-sun-2: #F1CD6E;     --g-sun-c: #7B5636;     --g-sun-d: #A27A52;
+    --g-moon: #FFFDF7;      --g-moon-line: #C9BA98; --g-moon-c: #F0DC95;    --g-crescent: #E3CD8E;
+    --g-rose: #E39C9C;      --g-acorn: #B07F52;     --g-acorn-cap: #75563D;
+    --g-bfly: #E9A55A;      --g-bfly-2: #F3C88F;    --g-bfly-b: #8DB0D6;    --g-bfly-b2: #BCD2E9;
+    --g-bird: #A3826B;      --g-bird-2: #EBD7C2;    --g-ink: #4A3A2E;
+  }
+  :root[data-theme="dark"] {
+    --g-soil: #5A4636;      --g-grass: #66795A;     --g-seed: #B08C70;      --g-pebble: #75604F;
+    --g-stem: #84A06E;      --g-leaf: #86A46F;      --g-leaf-2: #AEC795;    --g-leaf-3: #6A885B;
+    --g-bark: #A3826A;      --g-lav-leaf: #91A68A;  --g-lav: #A994DA;       --g-lav-2: #CBBDEB;
+    --g-sun: #E8BA4E;       --g-sun-2: #F3D47E;     --g-sun-c: #6E4C30;     --g-sun-d: #9A7550;
+    --g-moon: #F7F2E3;      --g-moon-line: #B5A88C; --g-moon-c: #EAD58B;    --g-crescent: #EBDDAE;
+    --g-rose: #E6A7A7;      --g-acorn: #BE8F62;     --g-acorn-cap: #8A6A4F;
+    --g-bird: #B9998A;      --g-bird-2: #EBDCCB;    --g-ink: #2A2019;
+  }
+  .garden-wrap { margin-top: 40px; }
+  #weekSection[hidden] + .garden-wrap { margin-top: 0; }
+  .garden {
+    margin-top: 16px; padding-top: 12px; border-radius: var(--r-lg); overflow: hidden;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--surface) 45%, var(--bg)), var(--surface) 60%);
+  }
+  .g-bed { --cols: 3; }
+  .g-plants, .g-labels { display: flex; justify-content: center; }
+  .g-cell, .g-label { flex: 0 0 calc(100% / var(--cols)); min-width: 0; }
+  .g-cell { position: relative; display: flex; justify-content: center; align-items: flex-end; padding: 0 4px; }
+  .g-cell svg { position: relative; width: 100%; max-width: 132px; height: auto; overflow: visible; }
+  /* Soft glow behind a plant that was just checked off. */
+  .g-cell::before {
+    content: ''; position: absolute; left: 50%; bottom: 0; width: min(100%, 140px); aspect-ratio: 1;
+    transform: translateX(-50%); border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle at 50% 60%, var(--primary-soft) 0%, color-mix(in srgb, var(--primary-soft) 0%, transparent) 70%);
+    opacity: 0; transition: opacity .6s var(--ease-out);
+  }
+  .g-cell.g-hl::before { opacity: 1; }
+  .g-soil { height: 14px; background: var(--g-soil); box-shadow: inset 0 3px 0 var(--g-grass); }
+  .g-label { padding: 10px 6px 20px; text-align: center; font-size: 0.889rem; line-height: 1.35; overflow-wrap: break-word; }
+  .g-name { display: block; font-weight: 700; transition: color .4s var(--ease-out); }
+  .g-label.g-hl .g-name { color: var(--primary-text); }
+  .g-count { display: block; color: var(--muted); }
+  .g-rest {
+    display: inline-block; margin-top: 6px; padding: 1px 10px;
+    border: 2px dashed var(--border-strong); border-radius: var(--r-pill);
+    color: var(--muted); font-size: 0.778rem; font-weight: 700;
+  }
+  .garden-summary { margin-top: 14px; font-weight: 700; }
+  .garden-note { color: var(--muted); font-size: 0.889rem; margin-top: 4px; max-width: 40em; }
+
+  .g-plant { transform-origin: 60px 140px; }
+  .g-grow .g-plant { animation: g-grow 1.1s var(--ease-out); }
+  @keyframes g-grow {
+    0% { transform: scale(0.9); }
+    40% { transform: scale(1.04) rotate(-2.5deg); }
+    68% { transform: scale(1) rotate(1.5deg); }
+    86% { transform: rotate(-0.6deg); }
+    100% { transform: none; }
+  }
+
+  .g-st { fill: none; stroke: var(--g-stem); stroke-linecap: round; stroke-linejoin: round; }
+  .g-bk { fill: none; stroke: var(--g-bark); stroke-linecap: round; }
+  .g-bkf { fill: var(--g-bark); }
+  .g-lf { fill: var(--g-leaf); }
+  .g-lf2 { fill: var(--g-leaf-2); }
+  .g-lf3 { fill: var(--g-leaf-3); }
+  .g-sl { fill: var(--g-soil); }
+  .g-sd { fill: var(--g-seed); }
+  .g-pb { fill: var(--g-pebble); }
+  .g-lvs { fill: none; stroke: var(--g-lav-leaf); stroke-linecap: round; }
+  .g-lvl { fill: var(--g-lav-leaf); }
+  .g-lv { fill: var(--g-lav); }
+  .g-lv2 { fill: var(--g-lav-2); }
+  .g-sn { fill: var(--g-sun); }
+  .g-sn2 { fill: var(--g-sun-2); }
+  .g-snc { fill: var(--g-sun-c); }
+  .g-snd { fill: var(--g-sun-d); }
+  .g-mn { fill: var(--g-moon); stroke: var(--g-moon-line); stroke-width: 0.8; }
+  .g-mnl { fill: none; stroke: var(--g-moon-line); stroke-width: 0.7; stroke-linecap: round; }
+  .g-mnc { fill: var(--g-moon-c); }
+  .g-cr { fill: var(--g-crescent); }
+  .g-vf { fill: var(--g-rose); }
+  .g-ac { fill: var(--g-acorn); }
+  .g-acc { fill: var(--g-acorn-cap); }
+  .g-wd { fill: var(--wd); }
+  .g-wd2 { fill: var(--wd2); }
+  .g-bf { fill: var(--g-bfly); }
+  .g-bf2 { fill: var(--g-bfly-2); }
+  .g-bfb { fill: var(--g-bfly-b); }
+  .g-bfb2 { fill: var(--g-bfly-b2); }
+  .g-ink { fill: none; stroke: var(--g-ink); stroke-linecap: round; }
+  .g-eye { fill: var(--g-ink); }
+  .g-bd { fill: var(--g-bird); }
+  .g-bd2 { fill: var(--g-bird-2); }
+
   /* ---------- Manage ---------- */
   .manage-wrap { margin-top: 24px; }
   .manage {
@@ -592,6 +691,14 @@
           <div class="week-list" id="weekList"></div>
         </section>
 
+        <section class="garden-wrap" aria-labelledby="gardenTitle" id="gardenSection" hidden>
+          <h2 class="section-title" id="gardenTitle">Your Brain Garden</h2>
+          <p class="hint">One plant for each habit. Every check-off helps it grow.</p>
+          <div class="garden" id="gardenScene"></div>
+          <p class="garden-summary" id="gardenSummary"></p>
+          <p class="garden-note">Like your brain, your garden grows with small, repeated care. This is a visual metaphor, not a measure of brain change.</p>
+        </section>
+
         <section class="manage-wrap" aria-label="Manage habits">
           <button type="button" class="btn btn-secondary" id="manageToggle" aria-expanded="false" aria-controls="manage"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg> Add or remove habits</button>
           <div class="manage" id="manage" hidden>
@@ -650,6 +757,7 @@
 
   /* ---------- Content ---------- */
   var STORE_KEY = 'brainHealthHabits.v1';
+  var GARDEN_KEY = 'brainHealthHabits.garden'; // resting plants for removed habits (see Brain Garden)
   var MAX_START = 3;
 
   // Icons: Phosphor Icons v2.1.1 (MIT), regular weight; the check mark uses bold weight.
@@ -766,6 +874,7 @@
 
   /* ---------- State + derived values ---------- */
   var state = loadState();
+  var garden = loadGarden();
   var picks = [];
   var manageOpen = false;
 
@@ -885,6 +994,7 @@
     renderProgress();
     renderToday();
     renderWeek();
+    renderGarden();
     $('manage').hidden = !manageOpen;
     $('manageToggle').setAttribute('aria-expanded', String(manageOpen));
     $('manageToggle').hidden = !activeHabits().length && !manageOpen; // empty state has its own button
@@ -970,15 +1080,503 @@
     }).join('');
   }
 
-  function praiseFor(id) {
+  /* ---------- Brain Garden ----------
+     Growth = total check-offs for a habit, all time (never streaks), so missed
+     days only pause growth. Active counts come straight from state.log.
+     Removed habits keep their plant as "resting" in a separate key, because a
+     custom habit's log is deleted on removal. Only "Reset all data" clears it. */
+  var PLANT_FOR = {
+    move: { kind: 'oak', name: 'Oak tree' },
+    sleep: { kind: 'moon', name: 'Moonflower' },
+    calm: { kind: 'lavender', name: 'Lavender' },
+    connect: { kind: 'vine', name: 'Climbing vine' },
+    learn: { kind: 'sun', name: 'Sunflower' },
+    health: { kind: 'fern', name: 'Fern' }
+  };
+  var WILD_PLANT = { kind: 'wild', name: 'Wildflower' };
+  var WILD_COLORS = [['#D98C9E', '#EDB8C4'], ['#A98BCB', '#CDB9E4'], ['#E3A06F', '#F0C39E'],
+                     ['#7FA6CC', '#B3CCE4'], ['#D9B444', '#EBD27F'], ['#C98BB8', '#E2B9D6']];
+  var STAGE_NAMES = ['seed', 'sprout', 'seedling', 'young plant', 'full plant', 'in bloom'];
+  var STAGE_MSG = ['', '{p} just sprouted.', '{p} just reached the seedling stage.', '{p} is now a young plant.',
+                   '{p} is now fully grown.', '{p} is in bloom.'];
+  var EXTRA_MSG = ['', 'A butterfly came to visit {p}.', 'Little flowers are popping up around {p}.',
+                   'A small bird stopped by {p}.', 'Another butterfly joined {p}.'];
+  var EXTRA_NAMES = ['a butterfly', 'little flowers', 'a small bird', 'a second butterfly'];
+  var MIN_PLOT = 112; // px; narrowest a plant column may get before the row wraps
+  // Highest point (viewBox y) each stage can reach. A row is only as tall as its
+  // tallest plant needs, so the garden itself grows taller over time.
+  var STAGE_TOP = [96, 96, 80, 56, 24, 0];
+
+  function gStage(c) { return c >= 30 ? 5 : c >= 14 ? 4 : c >= 7 ? 3 : c >= 3 ? 2 : c >= 1 ? 1 : 0; }
+  function gExtras(c) { return c >= 40 ? Math.min(4, Math.floor((c - 30) / 10)) : 0; }
+  function logCount(id) {
+    var log = state.log[id], n = 0;
+    if (!log || typeof log !== 'object') return 0;
+    Object.keys(log).forEach(function (k) { if (log[k]) n++; });
+    return n;
+  }
+
+  function blankGarden() { return { version: 1, resting: [] }; }
+  function loadGarden() {
+    if (!storageOK) return blankGarden();
+    try {
+      var d = JSON.parse(window.localStorage.getItem(GARDEN_KEY));
+      if (!d || !Array.isArray(d.resting)) return blankGarden();
+      return { version: 1, resting: d.resting.filter(function (p) {
+        return p && typeof p.id === 'string' && typeof p.name === 'string' && (p.custom || !!byId(PRESETS, p.id));
+      }).map(function (p) {
+        return { id: p.id, custom: !!p.custom, name: p.name, count: Math.max(0, Math.floor(Number(p.count)) || 0) };
+      }) };
+    } catch (e) { return blankGarden(); }
+  }
+  function saveGarden() {
+    if (!storageOK) return;
+    try { window.localStorage.setItem(GARDEN_KEY, JSON.stringify(garden)); }
+    catch (e) { storageOK = false; showStorageNotice(); }
+  }
+  function clearGarden() {
+    try { window.localStorage.removeItem(GARDEN_KEY); } catch (e) { /* nothing to clear */ }
+  }
+
+  // Called just before a habit is removed, while its log still exists.
+  function restPlant(h) {
+    var v = habitView(h);
+    garden.resting = garden.resting.filter(function (p) { return p.id !== h.id; });
+    garden.resting.push({ id: h.id, custom: !!h.custom, name: v ? v.name : h.name, count: logCount(h.id) });
+    saveGarden();
+  }
+  function wakePlant(id) {
+    var before = garden.resting.length;
+    garden.resting = garden.resting.filter(function (p) { return p.id !== id; });
+    if (garden.resting.length !== before) saveGarden();
+  }
+
+  function wildColor(id) {
+    var ids = {};
+    state.habits.forEach(function (h) { if (h.custom) ids[h.id] = 1; });
+    garden.resting.forEach(function (p) { if (p.custom) ids[p.id] = 1; });
+    var i = Math.max(0, Object.keys(ids).sort().indexOf(id)); // ids start with a timestamp, so order is stable
+    return WILD_COLORS[i % WILD_COLORS.length];
+  }
+  function plantInfo(id, custom, name, count, resting) {
+    var t = custom ? WILD_PLANT : (PLANT_FOR[id] || WILD_PLANT);
+    return { id: id, custom: custom, kind: t.kind, plant: t.name, name: name, count: count, resting: resting };
+  }
+  // Active habits first (in their usual order), then resting plants.
+  function gardenPlants() {
+    var seen = {}, out = [];
+    activeHabits().forEach(function (h) {
+      seen[h.id] = 1;
+      out.push(plantInfo(h.id, h.custom, h.name, logCount(h.id), false));
+    });
+    garden.resting.forEach(function (p) {
+      if (seen[p.id]) return;
+      seen[p.id] = 1;
+      var preset = byId(PRESETS, p.id);
+      out.push(plantInfo(p.id, p.custom, preset && !p.custom ? preset.name : p.name,
+        state.log[p.id] ? logCount(p.id) : p.count, true));
+    });
+    // Presets removed before the garden existed still have their log: show them resting too.
+    PRESETS.forEach(function (p) {
+      if (seen[p.id] || !logCount(p.id)) return;
+      out.push(plantInfo(p.id, false, p.name, logCount(p.id), true));
+    });
+    return out;
+  }
+  function plantRef(p) {
+    return p.custom ? 'your “' + p.name + '” wildflower' : 'your ' + p.plant.toLowerCase();
+  }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function gardenMessage(p, before, after) {
+    var sb = gStage(before), sa = gStage(after), eb = gExtras(before), ea = gExtras(after);
+    if (sa > sb) return STAGE_MSG[sa].replace('{p}', cap(plantRef(p))) + ' Small habits add up.';
+    if (ea > eb) return EXTRA_MSG[ea].replace('{p}', plantRef(p)) + ' Small habits add up.';
+    return '';
+  }
+  function plantLabel(p) {
+    var st = gStage(p.count), ex = gExtras(p.count);
+    var s = p.plant + ' for ' + p.name + (p.resting ? ' (resting)' : '') + ', ' +
+      (st === 5 ? 'in bloom' : STAGE_NAMES[st] + ' stage') + ', ' + p.count + (p.count === 1 ? ' day' : ' days');
+    if (ex) {
+      var parts = EXTRA_NAMES.slice(0, ex);
+      s += ', with ' + (parts.length > 1 ? parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1] : parts[0]);
+    }
+    return s;
+  }
+
+  /* SVG drawing. viewBox 0 0 120 140; every plant grows up from (60, 140). */
+  function n1(v) { return Math.round(v * 10) / 10; }
+  function at(x, y, a) { return ' transform="translate(' + n1(x) + ' ' + n1(y) + ') rotate(' + n1(a) + ')"'; }
+  function deg(dx, dy) { return Math.atan2(dx, -dy) * 180 / Math.PI; } // 0 = straight up
+  function stem(d, w, cls) { return '<path class="' + (cls || 'g-st') + '" d="' + d + '" stroke-width="' + w + '"/>'; }
+  function circ(x, y, r, cls) { return '<circle class="' + cls + '" cx="' + n1(x) + '" cy="' + n1(y) + '" r="' + n1(r) + '"/>'; }
+  function ell(x, y, rx, ry, a, cls) {
+    return '<ellipse class="' + cls + '" cx="0" cy="0" rx="' + n1(rx) + '" ry="' + n1(ry) + '"' + at(x, y, a) + '/>';
+  }
+  // Almond leaf: base at (x, y), length len, width w, pointing up then rotated by a degrees.
+  function leaf(x, y, len, a, w, cls) {
+    return '<path class="' + cls + '" d="M0 0Q' + n1(w) + ' ' + n1(-len / 2) + ' 0 ' + n1(-len) +
+      'Q' + n1(-w) + ' ' + n1(-len / 2) + ' 0 0Z"' + at(x, y, a) + '/>';
+  }
+  // Heart-shaped leaf (moonflower), notch at the stem.
+  function heart(x, y, len, a, w, cls) {
+    return '<path class="' + cls + '" d="M0 0C' + n1(w) + ' ' + n1(len * 0.2) + ' ' + n1(w * 0.9) + ' ' + n1(-len * 0.6) +
+      ' 0 ' + n1(-len) + 'C' + n1(-w * 0.9) + ' ' + n1(-len * 0.6) + ' ' + n1(-w) + ' ' + n1(len * 0.2) + ' 0 0Z"' + at(x, y, a) + '/>';
+  }
+  function flower(x, y, r, n, pc, cc, rot, cr) {
+    var s = '';
+    for (var i = 0; i < n; i++) {
+      var a = (rot || 0) + i * 360 / n, rad = a * Math.PI / 180;
+      s += ell(x + Math.sin(rad) * r * 0.55, y - Math.cos(rad) * r * 0.55, r * 0.3, r * 0.5, a, pc);
+    }
+    return s + circ(x, y, r * (cr || 0.32), cc);
+  }
+  function quadPt(x0, y0, cx, cy, x1, y1, t) {
+    var m = 1 - t;
+    return { x: m * m * x0 + 2 * m * t * cx + t * t * x1, y: m * m * y0 + 2 * m * t * cy + t * t * y1,
+             a: deg(2 * m * (cx - x0) + 2 * t * (x1 - cx), 2 * m * (cy - y0) + 2 * t * (y1 - cy)) };
+  }
+
+  function seedMound() {
+    return '<path class="g-sl" d="M30 140C36 129 48 124 60 124S84 129 90 140Z"/>' +
+      ell(61, 125.5, 3.6, 2.4, -20, 'g-sd') + circ(44, 135, 1.6, 'g-pb') + circ(73, 133, 1.3, 'g-pb') + circ(52, 131, 1, 'g-pb');
+  }
+  function smallMound() { return '<path class="g-sl" d="M42 140C48 134.5 54 133.5 60 133.5S72 134.5 78 140Z"/>'; }
+  function sprout() {
+    return stem('M60 140C60 133 59 127 60 120', 2.2) +
+      leaf(60, 122, 13, -62, 8, 'g-lf2') + leaf(60, 122, 13, 62, 8, 'g-lf2');
+  }
+
+  // Vine helper: a gentle sine weave around x = cx.
+  function wave(cx, y0, y1, amp, per, ph) {
+    var pts = [];
+    for (var y = y0; y >= y1; y -= 2) {
+      var t = y0 - y, a = amp * Math.min(1, t / 14);
+      pts.push([cx + a * Math.sin(t / per * 2 * Math.PI + ph), y]);
+    }
+    return pts;
+  }
+  function waveD(pts) { return 'M' + pts.map(function (p) { return n1(p[0]) + ' ' + n1(p[1]); }).join('L'); }
+  function waveLeaves(pts, every, size, cx) {
+    var s = '';
+    for (var i = 3; i < pts.length - 1; i += every) {
+      var p = pts[i], side = p[0] >= cx ? 1 : -1;
+      s += leaf(p[0], p[1], size, side * (58 + (i % 3) * 8), size * 0.62, i % 2 ? 'g-lf' : 'g-lf3');
+    }
+    return s;
+  }
+  function frond(x0, y0, cx, cy, x1, y1, n, size, cls) {
+    var s = stem('M' + x0 + ' ' + y0 + 'Q' + cx + ' ' + cy + ' ' + x1 + ' ' + y1, 1.6);
+    for (var i = 1; i <= n; i++) {
+      var t = 0.14 + 0.84 * i / (n + 1), p = quadPt(x0, y0, cx, cy, x1, y1, t), L = size * (1 - 0.62 * t);
+      s += leaf(p.x, p.y, L, p.a - 62, L * 0.55, cls) + leaf(p.x, p.y, L, p.a + 62, L * 0.55, cls);
+    }
+    var e = quadPt(x0, y0, cx, cy, x1, y1, 1);
+    return s + leaf(x1, y1, size * 0.45, e.a, size * 0.28, cls);
+  }
+  function fiddlehead(x0, y0, cx, cy, x1, y1, dir) {
+    return stem('M' + x0 + ' ' + y0 + 'Q' + cx + ' ' + cy + ' ' + x1 + ' ' + y1 +
+      'a3.6 3.6 0 1 ' + (dir > 0 ? '1' : '0') + ' ' + (dir * 3.6) + ' 3.6a1.8 1.8 0 1 ' + (dir > 0 ? '1' : '0') + ' ' + (-dir * 1.8) + ' -1.8', 1.6);
+  }
+  function lavStem(a, R, n, c1, c2) {
+    var rad = a * Math.PI / 180, x0 = 60 + a * 0.06;
+    var tx = 60 + Math.sin(rad) * R, ty = 140 - Math.cos(rad) * R;
+    var mx = x0 + (tx - x0) * 0.3, my = 140 - (140 - ty) * 0.55;
+    var s = stem('M' + n1(x0) + ' 140Q' + n1(mx) + ' ' + n1(my) + ' ' + n1(tx) + ' ' + n1(ty), 1.4, 'g-lvs');
+    var dir = deg(tx - mx, ty - my), ux = Math.sin(dir * Math.PI / 180), uy = -Math.cos(dir * Math.PI / 180);
+    for (var k = n - 1; k >= 0; k--) {
+      var small = k === 0;
+      s += ell(tx - ux * k * 3.3, ty - uy * k * 3.3, small ? 1.7 : 2.3, small ? 2.4 : 3, dir, k % 2 ? c2 : c1);
+    }
+    return s;
+  }
+  function lavFoliage(n, spread, l0, l1) {
+    var s = '';
+    for (var i = 0; i < n; i++) {
+      var a = -spread + (2 * spread) * i / (n - 1), t = 1 - Math.abs(a) / spread;
+      s += leaf(60 + a * 0.05, 140, l0 + (l1 - l0) * t, a, 3.8, 'g-lvl');
+    }
+    return s;
+  }
+  function moonBloom(x, y, r) {
+    var s = circ(x, y, r, 'g-mn');
+    for (var i = 0; i < 5; i++) {
+      var rad = (i * 72 - 90) * Math.PI / 180;
+      s += '<path class="g-mnl" d="M' + n1(x) + ' ' + n1(y) + 'L' + n1(x + Math.cos(rad) * r * 0.86) + ' ' + n1(y + Math.sin(rad) * r * 0.86) + '"/>';
+    }
+    return s + circ(x, y, r * 0.28, 'g-mnc');
+  }
+  function moonBud(x, y, a) { return ell(x, y, 2.8, 6.5, a, 'g-mn') + '<path class="g-mnl"' + at(x, y, a) + ' d="M-1.5 4Q1.5 0 -1 -5"/>'; }
+  function acorn(x, y) { return ell(x, y + 1.5, 2.6, 3.4, 0, 'g-ac') + '<path class="g-acc" d="M' + n1(x - 3.2) + ' ' + n1(y + 0.6) + 'a3.2 2.6 0 0 1 6.4 0Z"/>'; }
+  function sunHead(x, y, r) {
+    var s = '';
+    for (var i = 0; i < 16; i++) {
+      var a = i * 22.5, rad = a * Math.PI / 180;
+      s += ell(x + Math.sin(rad) * r * 0.62, y - Math.cos(rad) * r * 0.62, r * 0.17, r * 0.4, a, 'g-sn');
+    }
+    for (var j = 0; j < 12; j++) {
+      var b = j * 30 + 15, rb = b * Math.PI / 180;
+      s += ell(x + Math.sin(rb) * r * 0.5, y - Math.cos(rb) * r * 0.5, r * 0.14, r * 0.3, b, 'g-sn2');
+    }
+    s += circ(x, y, r * 0.42, 'g-snc');
+    for (var k = 0; k < 7; k++) {
+      var rk = k * 2.4, d = r * 0.12 + (k % 3) * r * 0.08;
+      s += circ(x + Math.cos(rk) * d, y + Math.sin(rk) * d, r * 0.045, 'g-snd');
+    }
+    return s;
+  }
+
+  var DRAW = {
+    oak: function (s) {
+      if (s === 2) return stem('M60 140Q58 122 60 102', 2.4) +
+        leaf(59.5, 125, 15, -58, 9, 'g-lf') + leaf(59.5, 114, 15, 56, 9, 'g-lf') + leaf(60, 104, 13, -6, 8, 'g-lf2');
+      if (s === 3) return stem('M60 140Q59 116 60 90', 3.4, 'g-bk') + stem('M60 106Q66 100 70 95', 2, 'g-bk') +
+        circ(60, 82, 15, 'g-lf3') + circ(48, 90, 11, 'g-lf') + circ(72, 90, 11, 'g-lf') + circ(60, 76, 11, 'g-lf') +
+        circ(55, 72, 4.5, 'g-lf2') + circ(68, 86, 3.5, 'g-lf2');
+      if (s === 4) return '<path class="g-bkf" d="M55 140C57 124 57.5 104 58 84H62C62.5 104 63 124 65 140Z"/>' +
+        stem('M59 106Q50 98 44 88', 2.6, 'g-bk') + stem('M61 100Q70 92 77 84', 2.6, 'g-bk') +
+        circ(60, 66, 22, 'g-lf3') + circ(40, 76, 15, 'g-lf3') + circ(80, 76, 15, 'g-lf3') +
+        circ(46, 58, 15, 'g-lf') + circ(74, 58, 15, 'g-lf') + circ(60, 48, 16, 'g-lf') + circ(60, 72, 13, 'g-lf') +
+        circ(52, 46, 5.5, 'g-lf2') + circ(71, 58, 4.5, 'g-lf2') + circ(42, 72, 3.5, 'g-lf2');
+      return '<path class="g-bkf" d="M52 140C55.5 124 56.5 102 57 80H63C63.5 102 64.5 124 68 140Z"/>' +
+        '<path class="g-bkf" d="M48 140Q53 137 56 132L58 140ZM72 140Q67 137 64 132L62 140Z"/>' +
+        stem('M59 104Q48 96 38 86', 3, 'g-bk') + stem('M61 98Q72 90 82 82', 3, 'g-bk') +
+        circ(60, 56, 27, 'g-lf3') + circ(31, 70, 19, 'g-lf3') + circ(89, 70, 19, 'g-lf3') +
+        circ(38, 44, 18, 'g-lf3') + circ(82, 44, 18, 'g-lf3') + circ(60, 28, 20, 'g-lf3') +
+        circ(43, 60, 16, 'g-lf') + circ(77, 60, 16, 'g-lf') + circ(60, 44, 18, 'g-lf') + circ(48, 30, 12, 'g-lf') +
+        circ(72, 30, 12, 'g-lf') + circ(60, 70, 14, 'g-lf') + circ(28, 66, 9, 'g-lf') + circ(92, 66, 9, 'g-lf') +
+        circ(50, 36, 6, 'g-lf2') + circ(68, 24, 5, 'g-lf2') + circ(80, 52, 5, 'g-lf2') + circ(38, 58, 4.5, 'g-lf2') +
+        circ(62, 62, 4, 'g-lf2') +
+        acorn(36, 82) + acorn(48, 84) + acorn(76, 83) + acorn(90, 80);
+    },
+    moon: function (s) {
+      if (s === 2) return stem('M60 140C58 130 62 118 60 104', 2) +
+        heart(60, 125, 14, -72, 8, 'g-lf') + heart(60.5, 113, 13, 70, 7.5, 'g-lf') + leaf(60, 105, 8, 4, 5, 'g-lf2');
+      if (s === 3) return stem('M60 140C56 126 64 110 60 96S58 82 62 76', 2.2) +
+        heart(59, 127, 15, -76, 8.5, 'g-lf') + heart(61, 115, 15, 72, 8.5, 'g-lf3') +
+        heart(60, 101, 14, -70, 8, 'g-lf3') + heart(60, 90, 13, 66, 7.5, 'g-lf') + moonBud(63, 70, 12);
+      var a = 'M60 140C54 124 66 104 58 86S56 62 62 52', b = 'M60 136C68 128 74 112 78 98';
+      if (s === 4) return stem(a, 2.4) + stem(b, 2) +
+        heart(58, 128, 16, -78, 9, 'g-lf') + heart(62, 116, 16, 74, 9, 'g-lf3') + heart(60, 102, 15, -74, 8.5, 'g-lf3') +
+        heart(58, 90, 14, -68, 8, 'g-lf') + heart(58, 76, 13, 70, 7.5, 'g-lf') + heart(59, 64, 12, -64, 7, 'g-lf3') +
+        heart(70, 124, 13, 70, 7.5, 'g-lf') + heart(75, 108, 12, 64, 7, 'g-lf3') +
+        moonBud(62, 46, 8) + moonBud(79, 92, 24);
+      var c = 'M60 136C50 128 40 112 36 86';
+      return '<path class="g-cr" d="M24 10a11 11 0 1 0 10 15a8.5 8.5 0 1 1 -10 -15Z"/>' +
+        stem(a.replace('62 52', '58 42'), 2.6) + stem(b.replace('78 98', '84 70'), 2.2) + stem(c, 2.2) +
+        heart(58, 128, 17, -80, 9.5, 'g-lf') + heart(62, 116, 17, 76, 9.5, 'g-lf3') + heart(60, 102, 16, -76, 9, 'g-lf3') +
+        heart(58, 90, 15, -70, 8.5, 'g-lf') + heart(58, 76, 14, 72, 8, 'g-lf') + heart(59, 62, 13, -66, 7.5, 'g-lf3') +
+        heart(70, 124, 14, 72, 8, 'g-lf') + heart(77, 106, 13, 66, 7.5, 'g-lf3') + heart(82, 88, 12, 60, 7, 'g-lf') +
+        heart(50, 126, 14, -70, 8, 'g-lf3') + heart(42, 110, 13, -66, 7.5, 'g-lf') + heart(38, 96, 12, -60, 7, 'g-lf3') +
+        moonBloom(58, 38, 12) + moonBloom(85, 64, 10) + moonBloom(35, 80, 10) + moonBud(70, 52, 30);
+    },
+    lavender: function (s) {
+      var out, i;
+      if (s === 2) return lavFoliage(5, 44, 15, 22);
+      if (s === 3) {
+        out = '';
+        [-12, 0, 12].forEach(function (a) { out += lavStem(a, 56 - Math.abs(a) * 0.3, 3, 'g-lvl', 'g-lf2'); });
+        return out + lavFoliage(7, 54, 16, 26);
+      }
+      if (s === 4) {
+        out = '';
+        for (i = -30; i <= 30; i += 10) out += lavStem(i, 82 - Math.abs(i) * 0.5, 5, 'g-lv2', 'g-lv2');
+        return out + lavFoliage(9, 60, 18, 30);
+      }
+      out = '';
+      for (i = -40; i <= 40; i += 8) out += lavStem(i, 102 - Math.abs(i) * 0.65, 7, 'g-lv', 'g-lv2');
+      return out + lavFoliage(11, 66, 20, 34);
+    },
+    vine: function (s) {
+      if (s === 2) {
+        var p = wave(60, 140, 108, 4, 22, 0);
+        return stem(waveD(p), 2) + waveLeaves(p, 4, 11, 60) + stem('M' + n1(p[p.length - 1][0]) + ' 108c-3 -2 -4 -6 -1 -8s5 1 3 4', 1.2);
+      }
+      var top = s === 3 ? 74 : s === 4 ? 40 : 34, amp = s === 3 ? 6 : s === 4 ? 7 : 8, leafEvery = s === 5 ? 4 : 5;
+      var a = wave(60, 140, top, amp, 28, 0), b = wave(60, 140, top + 4, amp, 28, Math.PI);
+      var out = stem('M60 140V' + (top - (s === 3 ? 8 : 6)), s === 3 ? 3 : 3.4, 'g-bk') +
+        stem(waveD(a), 1.8) + stem(waveD(b), 1.8) +
+        waveLeaves(a, leafEvery, s === 3 ? 10 : 12, 60) + waveLeaves(b, leafEvery, s === 3 ? 10 : 12, 60);
+      if (s >= 4) out += stem('M60 ' + top + 'c4 -4 9 -3 9 1s-4 4 -5 1', 1.2) + stem('M60 ' + (top + 4) + 'c-4 -4 -9 -3 -9 1s4 4 5 1', 1.2);
+      if (s === 5) {
+        out += stem('M60 34C50 26 38 30 33 46', 1.8) + stem('M60 34C70 26 82 30 87 46', 1.8) +
+          leaf(44, 30, 11, -40, 7, 'g-lf') + leaf(36, 38, 11, -100, 7, 'g-lf3') + leaf(76, 30, 11, 40, 7, 'g-lf') +
+          leaf(84, 38, 11, 100, 7, 'g-lf3') + leaf(33, 46, 9, -170, 6, 'g-lf') + leaf(87, 46, 9, 170, 6, 'g-lf');
+        [[33, 48], [87, 48], [a[12][0], a[12][1]], [b[20][0], b[20][1]], [a[30][0], a[30][1]], [50, 28], [70, 28]]
+          .forEach(function (q, i) { out += flower(q[0], q[1], 5.5, 5, 'g-vf', 'g-sn2', i * 17); });
+      }
+      return out;
+    },
+    sun: function (s) {
+      if (s === 2) return stem('M60 140Q61 120 60 100', 2.8) +
+        leaf(60, 124, 17, -62, 13, 'g-lf') + leaf(60, 124, 17, 62, 13, 'g-lf') +
+        leaf(60, 106, 12, -36, 9, 'g-lf2') + leaf(60, 106, 12, 36, 9, 'g-lf2');
+      if (s === 3) return stem('M60 140Q61 108 60 76', 3.2) +
+        leaf(60, 126, 22, -64, 16, 'g-lf') + leaf(60, 114, 21, 62, 15, 'g-lf3') +
+        leaf(60, 100, 18, -56, 13, 'g-lf3') + leaf(60, 90, 16, 52, 12, 'g-lf') +
+        leaf(60, 77, 8, -48, 6, 'g-lf') + leaf(60, 77, 8, 48, 6, 'g-lf') + circ(60, 71, 6.5, 'g-lf3');
+      if (s === 4) return stem('M60 140Q62 100 60 50', 3.6) +
+        leaf(60, 128, 25, -66, 18, 'g-lf') + leaf(61, 116, 24, 64, 17, 'g-lf3') + leaf(61, 102, 22, -60, 16, 'g-lf3') +
+        leaf(61, 90, 20, 58, 14, 'g-lf') + leaf(60, 76, 17, -54, 12, 'g-lf') + leaf(60, 66, 15, 52, 11, 'g-lf3') +
+        flower(60, 46, 13, 12, 'g-sn2', 'g-lf3', 0, 0.5) + circ(60, 46, 4.5, 'g-snc');
+      return stem('M60 140Q63 96 60 46', 4) + stem('M61 104Q76 94 84 76', 2.4) +
+        leaf(60, 130, 27, -66, 20, 'g-lf') + leaf(61, 118, 26, 64, 19, 'g-lf3') + leaf(62, 104, 24, -60, 17, 'g-lf3') +
+        leaf(62, 90, 22, 62, 15, 'g-lf') + leaf(61, 76, 19, -56, 13, 'g-lf') + leaf(61, 64, 16, 54, 11, 'g-lf3') +
+        leaf(74, 94, 12, 40, 9, 'g-lf') + sunHead(84, 70, 12) + sunHead(60, 34, 19);
+    },
+    fern: function (s) {
+      if (s === 2) return frond(60, 140, 52, 124, 45, 114, 4, 7, 'g-lf') + frond(60, 140, 66, 124, 73, 116, 4, 7, 'g-lf3') +
+        fiddlehead(60, 140, 60, 128, 61, 118, 1);
+      if (s === 3) return frond(60, 140, 44, 118, 32, 108, 6, 10, 'g-lf') + frond(60, 140, 76, 118, 88, 108, 6, 10, 'g-lf') +
+        frond(60, 140, 60, 112, 58, 90, 6, 9, 'g-lf3');
+      if (s === 4) return frond(60, 140, 34, 118, 16, 114, 7, 12, 'g-lf3') + frond(60, 140, 86, 118, 104, 114, 7, 12, 'g-lf3') +
+        frond(60, 140, 46, 100, 36, 76, 8, 12, 'g-lf') + frond(60, 140, 74, 100, 84, 76, 8, 12, 'g-lf') +
+        frond(60, 140, 62, 96, 58, 62, 8, 11, 'g-lf3');
+      return frond(60, 140, 28, 122, 8, 120, 8, 13, 'g-lf3') + frond(60, 140, 92, 122, 112, 120, 8, 13, 'g-lf3') +
+        frond(60, 140, 36, 104, 20, 82, 9, 14, 'g-lf') + frond(60, 140, 84, 104, 100, 82, 9, 14, 'g-lf') +
+        frond(60, 140, 50, 92, 42, 54, 9, 13, 'g-lf3') + frond(60, 140, 70, 92, 78, 54, 9, 13, 'g-lf3') +
+        frond(60, 140, 61, 88, 60, 40, 9, 12, 'g-lf') +
+        fiddlehead(58, 140, 52, 126, 50, 116, -1) + fiddlehead(62, 140, 68, 126, 70, 116, 1) +
+        flower(42, 134, 4, 5, 'g-mn', 'g-sn2') + flower(80, 135, 3.6, 5, 'g-mn', 'g-sn2', 20) + flower(70, 137, 3, 5, 'g-mn', 'g-sn2', 40);
+    },
+    wild: function (s) {
+      if (s === 2) return stem('M60 140Q59 122 60 104', 2) +
+        leaf(60, 128, 14, -55, 7, 'g-lf') + leaf(60, 118, 13, 52, 7, 'g-lf') + leaf(60, 106, 10, -14, 6, 'g-lf2');
+      if (s === 3) return stem('M60 140Q58 112 60 82', 2.2) +
+        leaf(60, 130, 16, -58, 8, 'g-lf') + leaf(60, 120, 15, 56, 8, 'g-lf3') + leaf(59, 108, 14, -52, 7, 'g-lf3') +
+        leaf(59, 96, 12, 50, 6, 'g-lf') + ell(60, 77, 3.6, 5.4, 0, 'g-wd') + leaf(60, 82, 6, -36, 4, 'g-lf') + leaf(60, 82, 6, 36, 4, 'g-lf');
+      if (s === 4) return stem('M60 140Q58 100 60 58', 2.4) + stem('M60 114Q70 102 74 90', 1.8) +
+        leaf(60, 132, 17, -60, 8.5, 'g-lf') + leaf(60, 122, 16, 58, 8, 'g-lf3') + leaf(59, 108, 15, -54, 7.5, 'g-lf3') +
+        leaf(59, 92, 13, -50, 6.5, 'g-lf') + leaf(60, 78, 12, 50, 6, 'g-lf') +
+        ell(75, 86, 3.4, 5, 18, 'g-wd') + flower(60, 54, 10, 6, 'g-wd', 'g-sn2', 0, 0.3) + circ(60, 54, 1.6, 'g-wd2');
+      return stem('M60 140Q58 96 60 46', 2.6) + stem('M60 124Q46 108 41 76', 2) + stem('M60 116Q76 100 80 64', 2) +
+        stem('M59 100Q50 96 47 88', 1.6) + stem('M61 92Q68 84 69 76', 1.6) +
+        leaf(60, 134, 18, -62, 9, 'g-lf') + leaf(60, 126, 17, 60, 8.5, 'g-lf3') + leaf(59, 112, 15, -56, 7.5, 'g-lf3') +
+        leaf(60, 96, 14, 52, 7, 'g-lf') + leaf(60, 80, 12, -50, 6, 'g-lf') + leaf(46, 104, 12, -40, 6, 'g-lf') +
+        leaf(74, 100, 12, 44, 6, 'g-lf3') +
+        ell(47, 86, 3.2, 4.6, -20, 'g-wd') + ell(69, 74, 3.2, 4.6, 14, 'g-wd2') +
+        flower(41, 72, 9, 6, 'g-wd2', 'g-sn2', 15) + flower(80, 61, 9, 6, 'g-wd2', 'g-sn2', 5) +
+        flower(60, 42, 11, 6, 'g-wd', 'g-sn2') + circ(60, 42, 1.6, 'g-wd2');
+    }
+  };
+
+  function butterfly(x, y, a, c1, c2) {
+    return '<g' + at(x, y, a) + '>' + ell(-4, -3, 4.2, 5.2, -28, c1) + ell(4, -3, 4.2, 5.2, 28, c1) +
+      ell(-3, 3.5, 2.9, 3.4, -10, c2) + ell(3, 3.5, 2.9, 3.4, 10, c2) +
+      '<path class="g-ink" stroke-width="1.4" d="M0 -5V6"/><path class="g-ink" stroke-width="0.8" d="M0 -5L-2.2 -9.5M0 -5L2.2 -9.5"/></g>';
+  }
+  function groundFlowers() {
+    return stem('M15 140V130', 1.2) + stem('M23 140V127', 1.2) + stem('M31 140V132', 1.2) +
+      leaf(23, 136, 6, -50, 3.5, 'g-lf') + leaf(15, 137, 5, 50, 3, 'g-lf') +
+      flower(15, 129, 4, 5, 'g-lv2', 'g-sn2') + flower(23, 126, 4.4, 5, 'g-vf', 'g-sn2', 30) + flower(31, 131, 3.6, 5, 'g-sn2', 'g-snc', 10);
+  }
+  function bird(x, y) {
+    return stem('M' + (x - 1) + ' ' + (y - 3) + 'V' + y + 'M' + (x + 2) + ' ' + (y - 3) + 'V' + y, 0.9, 'g-ink') +
+      '<path class="g-bd" d="M' + (x - 7) + ' ' + (y - 8) + 'L' + (x - 13) + ' ' + (y - 11) + 'L' + (x - 12) + ' ' + (y - 6) + 'Z"/>' +
+      ell(x, y - 8, 7.5, 5.5, -8, 'g-bd') + ell(x + 1.5, y - 6.5, 4.5, 3.2, -8, 'g-bd2') +
+      circ(x + 6, y - 13, 4, 'g-bd') + '<path class="g-sn" d="M' + (x + 9.5) + ' ' + (y - 14) + 'l3.2 1.2l-3.2 1.2Z"/>' +
+      circ(x + 7, y - 14, 0.8, 'g-eye');
+  }
+  // Each plant gets its own arrangement of extras, so a mature garden never looks stamped out.
+  var EXTRA_SPOTS = [
+    { b1: [98, 30, 14], b2: [20, 56, -16], flip: false },
+    { b1: [22, 38, -12], b2: [100, 64, 18], flip: true },
+    { b1: [96, 52, 20], b2: [24, 24, -10], flip: false }
+  ];
+  function extrasSVG(n, id) {
+    if (!n) return '';
+    var h = 0;
+    for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 997;
+    var sp = EXTRA_SPOTS[h % EXTRA_SPOTS.length];
+    var s = butterfly(sp.b1[0], sp.b1[1], sp.b1[2], 'g-bf', 'g-bf2');
+    if (n >= 2) s += sp.flip ? '<g transform="matrix(-1 0 0 1 120 0)">' + groundFlowers() + '</g>' : groundFlowers();
+    if (n >= 3) s += sp.flip ? '<g transform="matrix(-1 0 0 1 120 0)">' + bird(100, 140) + '</g>' : bird(100, 140);
+    if (n >= 4) s += butterfly(sp.b2[0], sp.b2[1], sp.b2[2], 'g-bfb', 'g-bfb2');
+    return '<g class="g-extra">' + s + '</g>';
+  }
+  function plantSVG(p, top) {
+    var st = gStage(p.count), body = st === 0 ? seedMound() : smallMound() + (st === 1 ? sprout() : DRAW[p.kind](st));
+    var style = '';
+    if (p.kind === 'wild') { var c = wildColor(p.id); style = ' style="--wd:' + c[0] + ';--wd2:' + c[1] + '"'; }
+    return '<svg viewBox="0 ' + top + ' 120 ' + (140 - top) + '" role="img" focusable="false" aria-label="' + esc(plantLabel(p)) + '"' + style + '>' +
+      '<g class="g-plant">' + body + '</g>' + extrasSVG(gExtras(p.count), p.id) + '</svg>';
+  }
+
+  var gardenCols = 0, gardenCount = 0, gardenHlTimer = null;
+  function gardenColumns(n) {
+    var w = $('gardenScene').clientWidth || 340;
+    var max = Math.max(1, Math.floor(w / MIN_PLOT)), rows = Math.ceil(n / max);
+    return Math.ceil(n / rows); // balanced rows, e.g. 3 + 3 rather than 4 + 2
+  }
+  function renderGarden(fx) {
+    var plants = gardenPlants(), sec = $('gardenSection');
+    sec.hidden = !plants.length;
+    gardenCount = plants.length;
+    if (!plants.length) { $('gardenScene').innerHTML = ''; return; }
+    var cols = gardenColumns(plants.length), html = '', total = 0;
+    var rows = Math.ceil(plants.length / cols), base = Math.floor(plants.length / rows), extra = plants.length % rows;
+    gardenCols = cols;
+    // Spread plants evenly over the rows (7 plants in 3 columns: 3 + 2 + 2, never 3 + 3 + 1).
+    for (var r = 0, i = 0; r < rows; r++) {
+      var row = plants.slice(i, i + base + (r < extra ? 1 : 0));
+      var top = Math.min.apply(null, row.map(function (p) { return STAGE_TOP[gStage(p.count)]; }));
+      i += row.length;
+      html += '<div class="g-bed" style="--cols:' + cols + '">' +
+        '<div class="g-plants">' + row.map(function (p) {
+          return '<div class="g-cell" data-id="' + esc(p.id) + '">' + plantSVG(p, top) + '</div>';
+        }).join('') + '</div>' +
+        '<div class="g-soil" aria-hidden="true"></div>' +
+        '<div class="g-labels" aria-hidden="true">' + row.map(function (p) {
+          return '<p class="g-label" data-id="' + esc(p.id) + '"><span class="g-name">' + esc(p.name) + '</span>' +
+            '<span class="g-count">' + p.count + (p.count === 1 ? ' day' : ' days') + '</span>' +
+            (p.resting ? '<span class="g-rest">Resting</span>' : '') + '</p>';
+        }).join('') + '</div></div>';
+    }
+    plants.forEach(function (p) { total += p.count; });
+    $('gardenScene').innerHTML = html;
+    $('gardenSummary').textContent = total
+      ? 'Your garden has grown from ' + total + (total === 1 ? ' check-off.' : ' check-offs.')
+      : 'Your garden is planted. Every check-off helps it grow.';
+
+    if (fx && fx.grew) {
+      var cell = $('gardenScene').querySelector('.g-cell[data-id="' + fx.id + '"]');
+      var label = $('gardenScene').querySelector('.g-label[data-id="' + fx.id + '"]');
+      if (!cell) return;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce) cell.querySelector('svg').classList.add('g-grow');
+      cell.classList.add('g-hl');
+      if (label) label.classList.add('g-hl');
+      clearTimeout(gardenHlTimer);
+      gardenHlTimer = setTimeout(function () {
+        cell.classList.remove('g-hl');
+        if (label) label.classList.remove('g-hl');
+      }, 1800);
+    }
+  }
+
+  // Re-flow the rows only when the column count actually changes.
+  var gardenRaf = 0;
+  window.addEventListener('resize', function () {
+    if (gardenRaf) return;
+    gardenRaf = window.requestAnimationFrame(function () {
+      gardenRaf = 0;
+      if (!state.onboarded || $('gardenSection').hidden) return;
+      if (gardenColumns(gardenCount) !== gardenCols) renderGarden();
+    });
+  });
+
+  function specialPraise(id) {
     var s = streak(id), k = dkey(today()), hs = activeHabits();
     if (MILESTONES[s]) return MILESTONES[s];
     if (hs.length > 1 && hs.every(function (h) { return isDone(h.id, k); })) return 'Everything done for today. Well done!';
-    return PRAISE[Math.floor(Math.random() * PRAISE.length)];
+    return '';
+  }
+  function praiseFor(id) {
+    return specialPraise(id) || PRAISE[Math.floor(Math.random() * PRAISE.length)];
   }
 
   function toggle(id) {
-    var k = dkey(today());
+    var k = dkey(today()), before = logCount(id);
     if (!state.log[id]) state.log[id] = {};
     var nowDone = !state.log[id][k];
     if (nowDone) state.log[id][k] = 1; else delete state.log[id][k];
@@ -1003,9 +1601,15 @@
     if (nowDone) {
       var cell = wk.querySelector('.day.today');
       if (cell) cell.classList.add('just');
-      toast(praiseFor(id));
+      // A garden stage-up replaces the generic praise; a streak milestone keeps its
+      // own toast and the garden message follows right after it.
+      var gmsg = gardenMessage(plantInfo(id, h.custom, h.name, before + 1, false), before, before + 1);
+      var special = specialPraise(id);
+      if (gmsg && special) { toast(special); toastNext(gmsg); }
+      else toast(gmsg || praiseFor(id));
     }
     renderProgress();
+    renderGarden({ id: id, grew: nowDone });
   }
 
   $('todayList').addEventListener('click', function (e) {
@@ -1021,8 +1625,8 @@
   /* ---------- Manage habits ---------- */
   function manageItemHTML(id, name, icon, active, custom) {
     var removeMsg = custom
-      ? 'Remove this habit? Its check-in history will be deleted.'
-      : 'Remove this habit? Your past check-ins are kept if you add it back later.';
+      ? 'Remove this habit? Its check-in history will be deleted. Its plant will rest in your garden.'
+      : 'Remove this habit? Your past check-ins are kept if you add it back later. Its plant will rest in your garden.';
     return '<li class="m-item" data-id="' + esc(id) + '">' +
       '<div class="m-row">' +
         '<span class="tile" aria-hidden="true">' + ICON[icon] + '</span>' +
@@ -1082,6 +1686,7 @@
       if (byId(state.habits, id)) return;
       state.habits.push({ id: id, start: dkey(today()) });
       saveState();
+      wakePlant(id);
       renderTracker();
       focusInManage(id, 'ask');
       toast(state.habits.length > 3 ? 'Added. Tip: a few habits at a time are easier to keep.' : 'Habit added. Small steps count!');
@@ -1097,6 +1702,7 @@
     } else if (act === 'remove') {
       var h = byId(state.habits, id);
       if (!h) return;
+      restPlant(h); // before the log is touched, so the garden keeps its count
       state.habits = state.habits.filter(function (x) { return x.id !== id; });
       if (h.custom) delete state.log[id];
       saveState();
@@ -1150,7 +1756,9 @@
   $('resetConfirm').addEventListener('keydown', function (e) { if (e.key === 'Escape') showResetConfirm(false); });
   $('resetYes').addEventListener('click', function () {
     clearState();
+    clearGarden();
     state = blankState();
+    garden = blankGarden();
     picks = [];
     manageOpen = false;
     $('resetConfirm').hidden = true;
@@ -1162,13 +1770,18 @@
   });
 
   /* ---------- Toast ---------- */
-  var toastTimer = null;
+  var toastTimer = null, toastNextTimer = null;
   function toast(msg) {
+    clearTimeout(toastNextTimer);
     var t = $('toast');
     t.textContent = msg;
     t.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3000);
+  }
+  function toastNext(msg) {
+    clearTimeout(toastNextTimer);
+    toastNextTimer = setTimeout(function () { toast(msg); }, 3200);
   }
 
   /* ---------- Appearance + color settings ---------- */
@@ -1249,7 +1862,7 @@
 
   // Stay in sync if the tracker is open in two tabs.
   window.addEventListener('storage', function (e) {
-    if (e.key === STORE_KEY || e.key === null) { state = loadState(); render(); }
+    if (e.key === STORE_KEY || e.key === GARDEN_KEY || e.key === null) { state = loadState(); garden = loadGarden(); render(); }
     if (e.key === PREFS_KEY || e.key === null) { prefs = loadPrefs(); applyTheme(); syncSettingsUI(); }
   });
 

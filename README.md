@@ -17,6 +17,7 @@ Your data is saved only in your own browser (localStorage). Nothing is sent anyw
 - **Daily check-off:** tap a habit in the Today list to mark it done.
 - **This week:** a 7-day view for each habit, with your current streak and the percentage of days completed.
 - **Kind feedback:** encouraging messages that never shame a missed day.
+- **Your Brain Garden:** one hand-drawn plant per habit that grows with your total check-offs (seed, sprout, seedling, young plant, full plant, in bloom, then small extras like butterflies). Missed days never shrink a plant, and removed habits keep a resting plant until you reset. A visual metaphor for neuroplasticity, not a measure of brain change.
 - **Why this helps:** a short, plain-language explanation for each habit.
 - **Reset:** clear all data, with a confirmation step first.
 - **Themes:** a settings panel for light, dark, or device appearance and four color options.
